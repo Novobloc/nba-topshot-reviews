@@ -5,6 +5,15 @@ import Home from "./components/Home";
 /** Layout */
 import Header from "./layouts/Header";
 
+/**
+ * Todos
+ *
+ * Integrate Onflow wallet login
+ * Build Home page
+ * Build Market Place UI
+ *
+ */
+
 function App() {
   return (
     <div>
