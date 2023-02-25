@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { ellipseAddress, classNames } from "../utils/functions";
 import { ArrowTopRightOnSquareIcon, ArrowLeftOnRectangleIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 import { useWeb3Context } from "../context/Onflow";
+import { Menu, Transition } from "@headlessui/react";
 
 export default function Header() {
   const navigate = useNavigate();

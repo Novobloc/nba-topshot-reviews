@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Hero from "../assets/nba-widget.svg";
+import { Link } from "react-router-dom";
 
 export default function Example() {
   return (
@@ -24,14 +25,11 @@ export default function Example() {
             id. In veniam incididunt ex veniam adipisicing sit.
           </p>
           <div className="mt-10 flex items-center gap-x-6">
-            <a
-              href="#"
+            <Link
+              to="/market-place"
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Get started
-            </a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              Learn more <span aria-hidden="true">→</span>
-            </a>
+              View Market Place
+            </Link>
           </div>
         </div>
         <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
