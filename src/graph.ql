@@ -76,3 +76,22 @@ score,
          }
      }
 }
+
+
+// 4 get all titles
+{ 
+     getTitles {
+         titles {
+             id ,
+             name,
+             description,
+             category {
+                 id , 
+                 name
+             },
+             collectorCount,
+             createdAt
+
+         }
+     }
+}
