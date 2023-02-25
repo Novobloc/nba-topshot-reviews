@@ -3,6 +3,7 @@ export interface IWeb3Context {
   logout: () => void;
   executeTransaction: (cadence: string, args?: any, options?: any) => void;
   executeScript: (cadence: string, args?: any) => any;
+  executeQuery: (cadence: string, args?: any) => any;
   user: {
     loggedIn: boolean | null;
     addr: string;
