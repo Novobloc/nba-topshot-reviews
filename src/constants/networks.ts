@@ -17,7 +17,7 @@ const NETWORKS: any = {
   },
   testnet: {
     flowNetwork: "testnet",
-    accessApi: "https://rest-testnet.onflow.org",
+    accessApi: "https://rest-testnet.onflow.org", // https://access-testnet.onflow.org
     walletDiscovery: "https://fcl-discovery.onflow.org/testnet/authn",
     walletDiscoveryApi: "https://fcl-discovery.onflow.org/api/testnet/authn",
     walletDiscoveryInclude: [

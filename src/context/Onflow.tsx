@@ -114,63 +114,12 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
     }
   }, []);
 
-  const getTopShotMomentsQuery = useCallback(async () => {
-    const result = await fcl.query({
-      cadence: `
-      import TopShot from 0xTOPSHOTADDRESS
-
-      pub fun main(account: Address): [UInt64] {
-      
-          let acct = getAccount(account)
-      
-          let collectionRef = acct.getCapability(/public/MomentCollection)
-                                  .borrow<&{TopShot.MomentCollectionPublic}>()!
-      
-          return collectionRef.getIDs()
-      }
-      `,
-      args: (arg: any, t: any) => [
-        arg("0x24be2543dbe3ccbc", t.Address) // addr: Address
-      ]
-    });
-    console.log(result); // 13
-  }, []);
-
-  const executeQuery = useCallback(async () => {
-    const result = await fcl.query({
-      cadence: `
-        pub fun main(a: Int, b: Int, addr: Address): Int {
-          log(addr)
-          return a + b
-        }
-      `,
-      args: (arg: any, t: any) => [
-        arg(7, t.Int), // a: Int
-        arg(6, t.Int), // b: Int
-        arg("0xba1132bc08f82fe2", t.Address) // addr: Address
-      ]
-    });
-    console.log(result); // 13
-  }, []);
-
-  useEffect(() => {
-    getTopShotMomentsQuery();
-  }, []);
-
-  const getAccountBalance = async (address: string) => {
-    const account = await fcl.send([fcl.getAccount(address)]).then(fcl.decode);
-    console.log(account, "account");
-    return account;
-  };
-
   const providerProps = useMemo(
     () => ({
       connect,
       logout,
       user,
       executeTransaction,
-      executeQuery,
-      getAccountBalance,
       executeScript,
       transaction: {
         id: txId,
@@ -179,19 +128,7 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
         errorMessage: transactionError
       }
     }),
-    [
-      connect,
-      logout,
-      txId,
-      transactionInProgress,
-      transactionStatus,
-      transactionError,
-      executeTransaction,
-      getAccountBalance,
-      executeScript,
-      executeQuery,
-      user
-    ]
+    [connect, logout, txId, transactionInProgress, transactionStatus, transactionError, executeTransaction, executeScript, user]
   );
 
   return (
