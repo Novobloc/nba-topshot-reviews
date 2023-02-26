@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import MareketPlace from "./pages/MareketPlace";
 import ViewNft from "./pages/ViewNft";
-import ViewNftHistory from "./pages/ViewNftHistory";
+// import ViewNftHistory from "./components/ViewNft/ViewNftHistory";
 
 /** Layout */
 import Header from "./layouts/Header";
@@ -26,7 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/market-place" element={<MareketPlace />} />
           <Route path="/market-place/view/:id" element={<ViewNft />} />
-          <Route path="/market-place/view/:id/history" element={<ViewNftHistory />} />
+          {/* <Route path="/market-place/view/:id/history" element={<ViewNftHistory />} /> */}
         </Routes>
       </Router>
     </div>
