@@ -111,13 +111,29 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
                         videoLengthInMilliseconds
                       }
                       stats {
+                        birthdate
                         playerName
+                        firstName
+                        lastName
                         dateOfMoment
                         playCategory
                         teamAtMomentNbaId
                         teamAtMoment
-                        jerseyNumber
                         nbaSeason
+                        awayTeamNbaId
+                        awayTeamScore
+                        homeTeamNbaId
+                        homeTeamScore
+                        __typename
+                      }
+                      statsPlayerGameScores {
+                        points
+                        assists
+                        rebounds
+                        __typename
+                      }
+                      tags {
+                        ...TagsFragment
                         __typename
                       }
                       __typename
@@ -141,8 +157,15 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
                     }
                     setPlay {
                       ID
-                      circulationCount
                       flowRetired
+                      tags {
+                        ...TagsFragment
+                        __typename
+                      }
+                      circulations {
+                        ...CirculationsFragment
+                        __typename
+                      }
                       __typename
                     }
                     parallelID
@@ -164,6 +187,26 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
       }
       __typename
     }
+}
+
+
+fragment TagsFragment on Tag {
+  id
+  title
+  visible
+  level
+  __typename
+}
+
+fragment CirculationsFragment on SetPlayCirculations {
+  burned
+  circulationCount
+  forSaleByCollectors
+  hiddenInPacks
+  ownedByCollectors
+  unavailableForPurchase
+  locked
+  __typename
 }
 
   fragment UserFragment on UserPublicInfo {
@@ -427,11 +470,3 @@ export const searchEditions = async () => {
   const res = await axios.post("http://localhost:8080/test", { query, variables });
   return res.data.data.searchEditionListings.data.searchSummary.data.data;
 };
-
-// "https://assets.nbatopshot.com/codex/common/co_5_base_set_common.jpg"
-// https://assets.nbatopshot.com/resize/editions/5_base_set_common/2/498a6b27-448e-4def-b2f4-df8dab391c90/play_498a6b27-448e-4def-b2f4-df8dab391c90_5_base_set_common_capture_Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1
-// https://assets.nbatopshot.com/editions/5_base_set_common/2/498a6b27-448e-4def-b2f4-df8dab391c90/play_498a6b27-448e-4def-b2f4-df8dab391c90_5_base_set_common_capture_
-// https://assets.nbatopshot.com/resize/editions/4_base_set_common/75732fbb-f6b8-4f17-a134-b48fc7f27aca/play_75732fbb-f6b8-4f17-a134-b48fc7f27aca_4_base_set_common_capture_Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1
-// https://assets.nbatopshot.com/resize/editions/5_spotlight_series_common/ddc1ce03-2a22-4366-b7a8-0b299dbd3610/play_ddc1ce03-2a22-4366-b7a8-0b299dbd3610_5_spotlight_series_common_capture_Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1
-// https://assets.nbatopshot.com/resize/editions/5_spotlight_series_common/ddc1ce03-2a22-4366-b7a8-0b299dbd3610/play_ddc1ce03-2a22-4366-b7a8-0b299dbd3610_5_spotlight_series_common_capture_Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1
-// "https://assets.nbatopshot.com/editions/5_base_set_common/2e3bdffc-956e-410e-a521-5806699256fb/play_2e3bdffc-956e-410e-a521-5806699256fb_5_base_set_common_capture_"
