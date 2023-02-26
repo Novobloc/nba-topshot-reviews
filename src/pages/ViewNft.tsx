@@ -135,7 +135,9 @@ const navigation = {
   ]
 };
 const product = {
-  name: "JAVALE MCGEE",
+  id: 1,
+  name: "GORDON HAYWARD",
+  rating: 5,
   version: { name: "1.0", date: "June 5, 2021", datetime: "2021-06-05" },
   price: "$220",
   description: "Los Angeles Lakers center JaVale McGee protects the rim with a big-time block against the Orlando Magic on January 15, 2020.",
@@ -393,7 +395,7 @@ export default function Example() {
                 Buy Moment @ {product.price}
               </button>
               <Link
-                to="/market-place/view/history"
+                to={`/market-place/view/${product.id}/history`}
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 py-3 px-8 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
                 View Past Owners
               </Link>

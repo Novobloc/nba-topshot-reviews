@@ -137,7 +137,7 @@ export default function Example() {
     <div className="bg-white">
       <main className="pb-24">
         {/* Filters */}
-        <Disclosure as="section" aria-labelledby="filter-heading" className="grid items-center border-t border-b border-gray-200">
+        {/* <Disclosure as="section" aria-labelledby="filter-heading" className="grid items-center border-t border-b border-gray-200">
           <h2 id="filter-heading" className="sr-only">
             Filters
           </h2>
@@ -284,7 +284,7 @@ export default function Example() {
               </Menu>
             </div>
           </div>
-        </Disclosure>
+        </Disclosure> */}
 
         {/* Product grid */}
         <section aria-labelledby="products-heading" className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
@@ -300,7 +300,7 @@ export default function Example() {
                 </div>
                 <div className="pt-10 pb-4 text-center">
                   <h3 className="text-sm font-medium text-gray-900">
-                    <Link to={"/market-place/view"}>
+                    <Link to={`/market-place/view/${product.id}`}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
                     </Link>
@@ -326,7 +326,7 @@ export default function Example() {
         </section>
 
         {/* Pagination */}
-        <nav aria-label="Pagination" className="mx-auto mt-6 flex max-w-7xl justify-between px-4 text-sm font-medium text-gray-700 sm:px-6 lg:px-8">
+        {/* <nav aria-label="Pagination" className="mx-auto mt-6 flex max-w-7xl justify-between px-4 text-sm font-medium text-gray-700 sm:px-6 lg:px-8">
           <div className="min-w-0 flex-1">
             <a
               href="#"
@@ -335,7 +335,6 @@ export default function Example() {
             </a>
           </div>
           <div className="hidden space-x-2 sm:flex">
-            {/* Current: "border-indigo-600 ring-1 ring-indigo-600", Default: "border-gray-300" */}
             <a
               href="#"
               className="inline-flex h-10 items-center rounded-md border border-gray-300 bg-white px-4 hover:bg-gray-100 focus:border-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-25 focus:ring-offset-1 focus:ring-offset-indigo-600">
@@ -375,7 +374,7 @@ export default function Example() {
               Next
             </a>
           </div>
-        </nav>
+        </nav> */}
       </main>
     </div>
   );

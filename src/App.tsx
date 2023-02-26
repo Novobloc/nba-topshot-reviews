@@ -25,8 +25,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/market-place" element={<MareketPlace />} />
-          <Route path="/market-place/view" element={<ViewNft />} />
-          <Route path="/market-place/view/history" element={<ViewNftHistory />} />
+          <Route path="/market-place/view/:id" element={<ViewNft />} />
+          <Route path="/market-place/view/:id/history" element={<ViewNftHistory />} />
         </Routes>
       </Router>
     </div>
