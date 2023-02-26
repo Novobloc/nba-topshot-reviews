@@ -142,8 +142,9 @@ const product = {
   rating: 5,
   version: { name: "1.0", date: "June 5, 2021", datetime: "2021-06-05" },
   price: "$220",
-  description: "Los Angeles Lakers center JaVale McGee protects the rim with a big-time block against the Orlando Magic on January 15, 2020.",
-  highlights: ["200+ SVG icons in 3 unique styles", "Compatible with Figma, Sketch, and Adobe XD", "Drawn on 24 x 24 pixel grid"],
+  description:
+    "First deny, then let it fly. Anthony Edwards makes magic happen at both ends for the Minnesota Timberwolves, first recording an unforgiving block on the Miami Heat’s Max Strus before quickly finding the ball back in his hands while leading the transition attack. The first-overall selection of the 2020 NBA Draft again comes face-to-face with Strus, breaking him down off the dribble atop the key before launching a shifty stepback triple that’s all net.",
+  highlights: ["Block - Nov 21 2022", "Spotlight Series (Series 4)", "Common/5555", "135 Moments burned"],
   imageSrc: Product,
   imageAlt: "Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles."
 };
