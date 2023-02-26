@@ -4,7 +4,7 @@ import { NETWORK } from "../constants/networks";
 import { init } from "@onflow/fcl-wc";
 import { IWeb3Context } from "../utils/types";
 import Logo from "../assets/nba-logo.jpeg";
-import { getUserTransactions } from "../utils/graphql";
+import { getMomentsWithHighestBurnedTopshotScore, getAllPlayers } from "../utils/graphql";
 
 export const Web3Context = createContext<IWeb3Context>({} as IWeb3Context);
 
@@ -103,7 +103,8 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
 
   useEffect(() => {
     (async () => {
-      await getUserTransactions();
+      const data = await getAllPlayers();
+      console.log(data, "data");
     })();
   }, []);
 
