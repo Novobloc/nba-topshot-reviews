@@ -111,13 +111,29 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
                         videoLengthInMilliseconds
                       }
                       stats {
+                        birthdate
                         playerName
+                        firstName
+                        lastName
                         dateOfMoment
                         playCategory
                         teamAtMomentNbaId
                         teamAtMoment
-                        jerseyNumber
                         nbaSeason
+                        awayTeamNbaId
+                        awayTeamScore
+                        homeTeamNbaId
+                        homeTeamScore
+                        __typename
+                      }
+                      statsPlayerGameScores {
+                        points
+                        assists
+                        rebounds
+                        __typename
+                      }
+                      tags {
+                        ...TagsFragment
                         __typename
                       }
                       __typename
@@ -165,6 +181,14 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
       __typename
     }
 }
+
+  fragment TagsFragment on Tag {
+    id
+    title
+    visible
+    level
+    __typename
+  }
 
   fragment UserFragment on UserPublicInfo {
     dapperID

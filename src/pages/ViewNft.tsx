@@ -20,10 +20,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
-import ViewNftHistory from "../components/ViewNft/ViewNftHistory";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
-import { Disclosure } from "@headlessui/react";
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import moment from "moment";
 
 const navigation = {
   categories: [
@@ -142,8 +140,6 @@ const navigation = {
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-
-const details = ["Highlights"];
 
 const imageSuffixes = [
   { id: 3, name: "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
@@ -390,11 +386,9 @@ export default function Example() {
           {product && (
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.moment.play.headline}</h1>
-
-              <div className="mt-3">
-                <h2 className="sr-only">Product information</h2>
-                <p className="text-3xl tracking-tight text-gray-900">{Number(product.price).toFixed(0)} $</p>
-              </div>
+              <h4 className="text-xl font-medium tracking-tight text-gray-900">
+                {product.moment.play.stats.playCategory} | {moment(product.moment.play.stats.dateOfMoment).format("YYYY MMM DD")}
+              </h4>
 
               {/* Reviews */}
               <div className="mt-3">
@@ -415,7 +409,6 @@ export default function Example() {
 
               <div className="mt-6">
                 <h3 className="sr-only">Description</h3>
-
                 <div className="space-y-6 text-base text-gray-700" dangerouslySetInnerHTML={{ __html: product.moment.play.description }} />
               </div>
 
@@ -445,11 +438,17 @@ export default function Example() {
 
                 <div className="divide-y divide-gray-200 border-t pt-5">
                   <ul role="list">
-                    {Object.keys(product.moment.play.stats).map((highlight) => (
-                      <li key={highlight}>
-                        {highlight.toUpperCase()} - {product.moment.play.stats[highlight]}
-                      </li>
-                    ))}
+                    {Object.keys(product.moment.play.stats).map(
+                      (highlight: string) =>
+                        highlight !== "__typename" && (
+                          <li key={highlight}>
+                            {highlight.replace(/([A-Z])/g, " $1").replace(/^./, function (str: string) {
+                              return str.toUpperCase();
+                            })}{" "}
+                            - {product.moment.play.stats[highlight]}
+                          </li>
+                        )
+                    )}
                   </ul>
                 </div>
               </section>

@@ -42,7 +42,7 @@ export default function Example() {
                     <h3 className="text-sm font-medium text-gray-900">
                       <Link to={`/market-place/view/${product.set.id}+${product.play.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
-                        {product.play.headline}
+                        {product.play.headline} ({product.play.stats.teamAtMoment})
                       </Link>
                     </h3>
                     <div className="mt-3 flex flex-col items-center">
@@ -58,7 +58,9 @@ export default function Example() {
                       </div>
                       <p className="mt-1 text-sm text-gray-500">{product.reviewCount} reviews</p>
                     </div>
-                    <p className="mt-4 text-base font-medium text-gray-900">{Number(product.averageSaleData.averagePrice)}$</p>
+                    <p className="mt-4 text-base font-medium text-gray-900">
+                      {Number(product.priceRange.min)}$ - {Number(product.priceRange.max)}$
+                    </p>
                   </div>
                 </div>
               ))}
