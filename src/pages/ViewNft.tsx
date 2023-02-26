@@ -153,18 +153,15 @@ const imageSuffixes = [
 export default function Example() {
   const [open, setOpen] = useState(false);
   const [product, setProduct]: any = useState(null);
-  const [products, setProducts]: any = useState(null);
-  // const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const d: any = useParams();
 
   useEffect(() => {
     (async () => {
       const [setId, playId]: any = d.id.split("+");
-      const data = await searchMarketPlaceByPlayerId(setId, playId, 4);
+      const data = await searchMarketPlaceByPlayerId(setId, playId, 1);
       console.log(data, "data2");
       if (data && data.length > 0) {
         setProduct(data[0]);
-        setProducts(data);
       }
     })();
   }, []);
@@ -308,10 +305,9 @@ export default function Example() {
 
       <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
         {/* Product */}
-
-        <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 mb-40">
-          {/* Image gallery */}
-          {products && products.length > 0 && (
+        {product && (
+          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 mb-40">
+            {/* Image gallery */}
             <Tab.Group as="div" className="flex flex-col-reverse">
               {/* Image selector */}
 
@@ -381,14 +377,16 @@ export default function Example() {
                   ))}
               </Tab.Panels>
             </Tab.Group>
-          )}
-          {/* Product info */}
-          {product && (
+            {/* Product info */}
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.moment.play.headline}</h1>
               <h4 className="text-xl font-medium tracking-tight text-gray-900">
                 {product.moment.play.stats.playCategory} | {moment(product.moment.play.stats.dateOfMoment).format("YYYY MMM DD")}
               </h4>
+              <h4 className="text-l font-semi-bold tracking-tight text-gray-900">
+                {product.moment.tier.replace("MOMENT_TIER_", "")} / {product.moment.setPlay.circulations.circulationCount}
+              </h4>
+              <h4 className="text-l font-semi-bold tracking-tight text-gray-900">{product.moment.setPlay.circulations.burned} Moments burned</h4>
 
               {/* Reviews */}
               <div className="mt-3">
@@ -453,8 +451,8 @@ export default function Example() {
                 </div>
               </section>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* <ViewNftHistory /> */}
 

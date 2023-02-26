@@ -157,8 +157,15 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
                     }
                     setPlay {
                       ID
-                      circulationCount
                       flowRetired
+                      tags {
+                        ...TagsFragment
+                        __typename
+                      }
+                      circulations {
+                        ...CirculationsFragment
+                        __typename
+                      }
                       __typename
                     }
                     parallelID
@@ -182,13 +189,25 @@ export const searchMarketPlaceByPlayerId = async (setId: string, playId: string,
     }
 }
 
-  fragment TagsFragment on Tag {
-    id
-    title
-    visible
-    level
-    __typename
-  }
+
+fragment TagsFragment on Tag {
+  id
+  title
+  visible
+  level
+  __typename
+}
+
+fragment CirculationsFragment on SetPlayCirculations {
+  burned
+  circulationCount
+  forSaleByCollectors
+  hiddenInPacks
+  ownedByCollectors
+  unavailableForPurchase
+  locked
+  __typename
+}
 
   fragment UserFragment on UserPublicInfo {
     dapperID
