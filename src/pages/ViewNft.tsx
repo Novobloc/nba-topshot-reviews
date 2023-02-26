@@ -22,8 +22,8 @@ import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import ViewNftHistory from "../components/ViewNft/ViewNftHistory";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
-import { Disclosure, RadioGroup } from "@headlessui/react";
-import { HeartIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { Disclosure } from "@headlessui/react";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 const navigation = {
   categories: [
@@ -146,11 +146,12 @@ function classNames(...classes: any) {
 const details = ["Highlights"];
 
 const imageSuffixes = [
-  { id: 1, name: "Category_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
-  { id: 1, name: "Game_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
-  { id: 1, name: "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
-  { id: 1, name: "ReverseHero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
-  { id: 1, name: "Logos_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" }
+  { id: 3, name: "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
+  { id: 1, name: "Category_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
+  { id: 2, name: "Game_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
+  { id: 4, name: "ReverseHero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
+  { id: 5, name: "Logos_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1", type: "img" },
+  { id: 6, name: "https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4", type: "vid" }
 ];
 
 export default function Example() {
@@ -171,6 +172,13 @@ export default function Example() {
       }
     })();
   }, []);
+
+  const redirectToWebsite = (e: any) => {
+    e.preventDefault();
+    const baseUrl = "https://nbatopshot.com/listings/p2p/";
+    const suffixUrl = d.id;
+    return window.open(`${baseUrl}${suffixUrl}`, "_blank", "noreferrer");
+  };
 
   return (
     <div className="bg-white">
@@ -323,11 +331,21 @@ export default function Example() {
                           <>
                             <span className="sr-only"> {eachProduct.id} </span>
                             <span className="absolute inset-0 overflow-hidden rounded-md">
-                              <img
-                                src={product.moment.assetPathPrefix + eachProduct.name}
-                                alt=""
-                                className="h-full w-full object-cover object-center"
-                              />
+                              {eachProduct.type !== "img" ? (
+                                <video className="h-full w-full object-cover object-center sm:rounded-lg" controls autoPlay={true}>
+                                  <source
+                                    src={product.moment.play.assets.videos[0].url}
+                                    // src="https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4"
+                                    type="video/mp4"
+                                  />
+                                </video>
+                              ) : (
+                                <img
+                                  src={product.moment.assetPathPrefix + eachProduct.name}
+                                  alt={eachProduct.id}
+                                  className="h-full w-full object-cover object-center sm:rounded-lg"
+                                />
+                              )}
                             </span>
                             <span
                               className={classNames(
@@ -344,21 +362,25 @@ export default function Example() {
               </div>
 
               <Tab.Panels className="aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100">
-                {products &&
-                  products.length > 0 &&
-                  products.map((eachProduct: any) => (
+                {imageSuffixes &&
+                  imageSuffixes.length > 0 &&
+                  imageSuffixes.map((eachProduct: any) => (
                     <Tab.Panel key={eachProduct.id}>
-                      <video className="h-full w-full object-cover object-center sm:rounded-lg" controls autoPlay={true}>
-                        <source
-                          src="https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4"
-                          type="video/mp4"
+                      {eachProduct.type !== "img" ? (
+                        <video className="h-full w-full object-cover object-center sm:rounded-lg" controls autoPlay={true}>
+                          <source
+                            src={product.moment.play.assets.videos[0].url}
+                            // src="https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4"
+                            type="video/mp4"
+                          />
+                        </video>
+                      ) : (
+                        <img
+                          src={product.moment.assetPathPrefix + eachProduct.name}
+                          alt={eachProduct.id}
+                          className="h-full w-full object-cover object-center sm:rounded-lg"
                         />
-                      </video>
-                      {/* <img
-                        // src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
-                        alt={eachProduct.id}
-                        className="h-full w-full object-cover object-center sm:rounded-lg"
-                      /> */}
+                      )}
                     </Tab.Panel>
                   ))}
               </Tab.Panels>
@@ -400,9 +422,10 @@ export default function Example() {
               <form className="mt-6">
                 <div className="sm:flex-col1 mt-10 flex">
                   <button
-                    type="submit"
+                    // type="submit"
+                    onClick={redirectToWebsite}
                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                    Buy Moment
+                    Buy on Market Place
                   </button>
 
                   {/* <button
@@ -418,44 +441,23 @@ export default function Example() {
                 <h2 id="details-heading" className="sr-only">
                   Additional details
                 </h2>
+                <h2 className="text-l font-medium tracking-tight text-gray-900 sm:text-xl">Highlights</h2>
 
-                <div className="divide-y divide-gray-200 border-t">
-                  {details.map((detail) => (
-                    <Disclosure as="div" key={detail}>
-                      {({ open }) => (
-                        <>
-                          <h3>
-                            <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
-                              <span className={classNames(open ? "text-indigo-600" : "text-gray-900", "text-sm font-medium")}>{detail}</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="block h-6 w-6 text-indigo-400 group-hover:text-indigo-500" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="block h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel as="div" className="prose prose-sm pb-6">
-                            <ul role="list">
-                              {Object.keys(product.moment.play.stats).map((highlight) => (
-                                <li key={highlight}>
-                                  {highlight.toUpperCase()} - {product.moment.play.stats[highlight]}
-                                </li>
-                              ))}
-                            </ul>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
-                  ))}
+                <div className="divide-y divide-gray-200 border-t pt-5">
+                  <ul role="list">
+                    {Object.keys(product.moment.play.stats).map((highlight) => (
+                      <li key={highlight}>
+                        {highlight.toUpperCase()} - {product.moment.play.stats[highlight]}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </section>
             </div>
           )}
         </div>
 
-        <ViewNftHistory />
+        {/* <ViewNftHistory /> */}
 
         <CustomerRatings />
       </main>
