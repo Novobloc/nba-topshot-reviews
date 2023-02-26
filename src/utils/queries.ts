@@ -149,20 +149,6 @@ export const a = 5;
 //     console.log(result); // 13
 //   }, []);
 
-//   const getAllPlaysQuery = useCallback(async () => {
-//     const result = await fcl.query({
-//       cadence: `
-//       import TopShot from 0xTOPSHOTADDRESS
-
-//       pub fun main(): [TopShot.Play] {
-//         return TopShot.getAllPlays()
-//     }
-//       `,
-//       args: () => []
-//     });
-//     console.log(result); // 13
-//   }, []);
-
 //   const executeQuery = useCallback(async () => {
 //     const result = await fcl.query({
 //       cadence: `
@@ -178,11 +164,6 @@ export const a = 5;
 //       ]
 //     });
 //     console.log(result); // 13
-//   }, []);
-
-//   const getTopShotMomentsQuery = useCallback(async () => {
-//     const collection = await fcl.send([fcl.getCollection("cccdb0c67d015dc7f6444e8f62a3244ed650215ed66b90603006c70c5ef1f6e5")]).then(fcl.decode);
-//     console.log(collection, "collection");
 //   }, []);
 
 //   const getAccountBalance = async (address: string) => {

@@ -16,12 +16,12 @@ app.get("/", function (req, res) {
 app.post("/test", function (req, res) {
   var data = JSON.stringify({
     query: req.body.query,
-    variables: {}
+    variables: req.body.variables
   });
   var config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: "https://public-api.nbatopshot.com/graphql",
+    url: "https://public-api.nbatopshot.com/graphql",//: https://nbatopshot.com/marketplace/graphql?GetEditionListingDefault
     headers: {
       "Content-Type": "application/json"
     },

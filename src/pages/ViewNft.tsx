@@ -14,14 +14,14 @@
   }
   ```
 */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import Product from "../assets/nba1.png";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import ViewNftHistory from "../components/ViewNft/ViewNftHistory";
+import { searchMarketPlaceByPlayerId } from "../utils/graphql";
 
 const navigation = {
   categories: [
@@ -136,18 +136,7 @@ const navigation = {
     { name: "Themes", href: "#" }
   ]
 };
-const product = {
-  id: 1,
-  name: "GORDON HAYWARD",
-  rating: 5,
-  version: { name: "1.0", date: "June 5, 2021", datetime: "2021-06-05" },
-  price: "$220",
-  description:
-    "First deny, then let it fly. Anthony Edwards makes magic happen at both ends for the Minnesota Timberwolves, first recording an unforgiving block on the Miami Heat’s Max Strus before quickly finding the ball back in his hands while leading the transition attack. The first-overall selection of the 2020 NBA Draft again comes face-to-face with Strus, breaking him down off the dribble atop the key before launching a shifty stepback triple that’s all net.",
-  highlights: ["Block - Nov 21 2022", "Spotlight Series (Series 4)", "Common/5555", "135 Moments burned"],
-  imageSrc: Product,
-  imageAlt: "Sample of 30 icons with friendly and fun details in outline, filled, and brand color styles."
-};
+
 const reviews = {
   average: 4,
   totalCount: 1624,
@@ -179,7 +168,16 @@ function classNames(...classes: any) {
 
 export default function Example() {
   const [open, setOpen] = useState(false);
+  const [product, setProduct]: any = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      const data = await searchMarketPlaceByPlayerId("cc8ee16f-f66b-41bb-a0db-ca9f80b7395c", "bb519451-4ff8-437b-a8aa-022eb883187a", 5);
+      console.log(data, "data2");
+      setProduct(data[0]);
+    })();
+  }, []);
+  // searchMarketPlaceByPlayerId
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -309,78 +307,83 @@ export default function Example() {
           </div>
         </Dialog>
       </Transition.Root>
-
-      <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
-        {/* Product */}
-        <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
-          {/* Product image */}
-          <div className="lg:col-span-4 lg:row-end-1">
-            <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100">
-              <img src={product.imageSrc} alt={product.imageAlt} className="object-cover object-center" />
+      {product && (
+        <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
+          {/* Product */}
+          <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
+            {/* Product image */}
+            <div className="lg:col-span-4 lg:row-end-1">
+              <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100">
+                <img
+                  src={product.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
+                  alt={product.imageAlt}
+                  className="object-cover object-center"
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Product details */}
-          <div className="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:max-w-none">
-            <div className="flex flex-col-reverse">
-              <div className="mt-4">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            {/* Product details */}
+            <div className="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:max-w-none">
+              <div className="flex flex-col-reverse">
+                <div className="mt-4">
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.moment.play.headline}</h1>
 
-                <h2 id="information-heading" className="sr-only">
-                  Product information
-                </h2>
-                <p className="mt-2 text-sm text-gray-500">
+                  <h2 id="information-heading" className="sr-only">
+                    Product information
+                  </h2>
+                  {/* <p className="mt-2 text-sm text-gray-500">
                   Version {product.version.name} (Updated <time dateTime={product.version.datetime}>{product.version.date}</time>)
-                </p>
-              </div>
-
-              <div>
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
-                      aria-hidden="true"
-                    />
-                  ))}
+                </p> */}
                 </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
+
+                <div>
+                  <h3 className="sr-only">Reviews</h3>
+                  <div className="flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <p className="sr-only">{reviews.average} out of 5 stars</p>
+                </div>
               </div>
-            </div>
 
-            <p className="mt-6 text-gray-500">{product.description}</p>
+              <p className="mt-6 text-gray-500">{product.moment.play.description}</p>
 
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-                Buy Moment @ {product.price}
-              </button>
-              {/* <Link
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                  Buy Moment @ {Number(product.price).toFixed(0)} $
+                </button>
+                {/* <Link
                 to={`/market-place/view/${product.id}/history`}
                 className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 py-3 px-8 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
                 View Past Owners
               </Link> */}
-            </div>
+              </div>
 
-            <div className="mt-10 border-t border-gray-200 pt-10">
-              <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-              <div className="prose prose-sm mt-4 text-gray-500">
-                <ul role="list">
-                  {product.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
+              <div className="mt-10 border-t border-gray-200 pt-10">
+                <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
+                <div className="prose prose-sm mt-4 text-gray-500">
+                  <ul role="list">
+                    {Object.keys(product.moment.play.stats).map((highlight) => (
+                      <li key={highlight}>{product.moment.play.stats[highlight]}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <ViewNftHistory />
+          <ViewNftHistory />
 
-        <CustomerRatings />
-      </main>
+          <CustomerRatings />
+        </main>
+      )}
     </div>
   );
 }

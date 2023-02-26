@@ -4,7 +4,6 @@ import { NETWORK } from "../constants/networks";
 import { init } from "@onflow/fcl-wc";
 import { IWeb3Context } from "../utils/types";
 import Logo from "../assets/nba-logo.jpeg";
-import { getMomentsWithHighestBurnedTopshotScore, getAllPlayers } from "../utils/graphql";
 
 export const Web3Context = createContext<IWeb3Context>({} as IWeb3Context);
 
@@ -60,8 +59,7 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
       "0xNonFungibleToken": addresses.NonFungibleToken,
       "0xMetadataViews": addresses.MetadataViews,
       "0xMonsterMaker": addresses.MonsterMaker,
-      "0xTOPSHOTADDRESS": "0x877931736ee77cff", //https://flow-view-source.com/testnet/account/0x877931736ee77cff/contract/TopShot
-      "0xTopShotMarketV3": "0x547f177b243b4d80" //https://flow-view-source.com/testnet/account/0x547f177b243b4d80/contract/TopShotMarketV3
+      "0xTOPSHOTADDRESS": addresses.TopShot //https://flow-view-source.com/testnet/account/0x877931736ee77cff/contract/TopShot
     });
 
     if (!client) {
@@ -101,11 +99,103 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
     console.log(result); // 13
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const data = await getAllPlayers();
-      console.log(data, "data");
-    })();
+  const getAllPlaysQuery = useCallback(async () => {
+    //   {
+    //     "playID": "973",
+    //     "metadata": {
+    //         "AwayTeamName": "Charlotte Bobcats",
+    //         "HomeTeamScore": "101",
+    //         "DateOfMoment": "2010-10-27 12:00:00 +0000 UTC",
+    //         "HomeTeamName": "Dallas Mavericks",
+    //         "PlayCategory": "Reel",
+    //         "Tagline": "Duos",
+    //         "TeamAtMoment": "Dallas Mavericks",
+    //         "TeamAtMomentNBAID": "1610612742",
+    //         "PlayType": "Reel",
+    //         "AwayTeamScore": "86"
+    //     }
+    // }
+    const result = await fcl.query({
+      cadence: `
+      import TopShot from 0xTOPSHOTADDRESS
+
+      pub fun main(): [TopShot.Play] {
+        return TopShot.getAllPlays()
+    }
+      `,
+      args: () => []
+    });
+    console.log(result); // 13
+  }, []);
+
+  const getPlayMetaDataQuery = useCallback(async () => {
+    //   {
+    //     "PrimaryPosition": "PF",
+    //     "AwayTeamScore": "170",
+    //     "PlayType": "Rim",
+    //     "DraftYear": "2019",
+    //     "LastName": "Williamson",
+    //     "DateOfMoment": "2021-03-08 01:00:00 +0000 UTC",
+    //     "DraftTeam": "New Orleans Pelicans",
+    //     "Weight": "284",
+    //     "DraftRound": "1",
+    //     "DraftSelection": "1",
+    //     "Height": "79",
+    //     "Birthplace": "Salisbury, NC, USA",
+    //     "PlayCategory": "Dunk",
+    //     "TeamAtMomentNBAID": "1610616833",
+    //     "Birthdate": "2000-07-06",
+    //     "HomeTeamName": "Team Durant East",
+    //     "AwayTeamName": "Team LeBron West",
+    //     "FirstName": "Zion",
+    //     "JerseyNumber": "1",
+    //     "TeamAtMoment": "Team Durant East",
+    //     "TotalYearsExperience": "1",
+    //     "NbaSeason": "2020-21",
+    //     "HomeTeamScore": "150",
+    //     "FullName": "Zion Williamson",
+    //     "PlayerPosition": "C"
+    // }
+    const result = await fcl.query({
+      cadence: `
+      import TopShot from 0xTOPSHOTADDRESS
+
+      pub fun main(playID: UInt32): {String:String} {
+
+          let metadata = TopShot.getPlayMetaData(playID: playID) ?? panic("Play doesn't exist")
+
+          return metadata
+      }
+      `,
+      args: (arg: any, t: any) => [
+        arg(363, t.UInt32) // addr: Address
+      ]
+    });
+    console.log(result); // 13
+  }, []);
+
+  const getTopShotMomentsQuery = useCallback(async () => {
+    const collection = await fcl.send([fcl.getCollection("cccdb0c67d015dc7f6444e8f62a3244ed650215ed66b90603006c70c5ef1f6e5")]).then(fcl.decode);
+    console.log(collection, "collection");
+  }, []);
+
+  const getPlaysInSetQuery = useCallback(async () => {
+    const result = await fcl.query({
+      cadence: `
+      import TopShot from 0xTOPSHOTADDRESS
+
+pub fun main(setID: UInt32): [UInt32] {
+
+    let plays = TopShot.getPlaysInSet(setID: setID)!
+
+    return plays
+}
+      `,
+      args: (arg: any, t: any) => [
+        arg("cc8ee16f-f66b-41bb-a0db-ca9f80b7395c", t.UInt32) // addr: Address
+      ]
+    });
+    console.log(result); // 13
   }, []);
 
   const executeTransaction = useCallback(async (cadence: string, args: any = () => [], options: any = {}) => {

@@ -12,7 +12,7 @@
   }
   ```
 */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -104,33 +104,6 @@ const orders = [
   }
   // More orders...
 ];
-const footerNavigation = {
-  account: [
-    { name: "Manage Account", href: "#" },
-    { name: "Saved Items", href: "#" },
-    { name: "Orders", href: "#" },
-    { name: "Redeem Gift card", href: "#" }
-  ],
-  service: [
-    { name: "Shipping & Returns", href: "#" },
-    { name: "Warranty", href: "#" },
-    { name: "FAQ", href: "#" },
-    { name: "Find a store", href: "#" },
-    { name: "Get in touch", href: "#" }
-  ],
-  company: [
-    { name: "Who we are", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Terms & Conditions", href: "#" },
-    { name: "Privacy", href: "#" }
-  ],
-  connect: [
-    { name: "Instagram", href: "#" },
-    { name: "Pinterest", href: "#" },
-    { name: "Twitter", href: "#" }
-  ]
-};
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
