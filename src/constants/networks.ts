@@ -1,4 +1,4 @@
-const FLOW_ENV = process.env.NEXT_PUBLIC_FLOW_ENV || "mainnet";
+const FLOW_ENV = process.env.NEXT_PUBLIC_FLOW_ENV || "testnet";
 
 const NETWORKS: any = {
   emulator: {
