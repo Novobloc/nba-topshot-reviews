@@ -22,6 +22,8 @@ import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import ViewNftHistory from "../components/ViewNft/ViewNftHistory";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
+import { Disclosure, RadioGroup } from "@headlessui/react";
+import { HeartIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 const navigation = {
   categories: [
@@ -137,49 +139,31 @@ const navigation = {
   ]
 };
 
-const reviews = {
-  average: 4,
-  totalCount: 1624,
-  counts: [
-    { rating: 5, count: 1019 },
-    { rating: 4, count: 162 },
-    { rating: 3, count: 97 },
-    { rating: 2, count: 199 },
-    { rating: 1, count: 147 }
-  ],
-  featured: [
-    {
-      id: 1,
-      rating: 5,
-      content: `
-        <p>This is the bag of my dreams. I took it on my last vacation and was able to fit an absurd amount of snacks for the many long and hungry flights.</p>
-      `,
-      author: "Emily Selman",
-      avatarSrc:
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-    }
-    // More reviews...
-  ]
-};
-
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
+const details = ["Highlights"];
+
 export default function Example() {
   const [open, setOpen] = useState(false);
   const [product, setProduct]: any = useState(null);
+  const [products, setProducts]: any = useState(null);
+  // const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const d: any = useParams();
 
   useEffect(() => {
     (async () => {
       const [setId, playId]: any = d.id.split("+");
-      const data = await searchMarketPlaceByPlayerId(setId, playId, 5);
+      const data = await searchMarketPlaceByPlayerId(setId, playId, 4);
       console.log(data, "data2");
-      setProduct(data[0]);
+      if (data && data.length > 0) {
+        setProduct(data[0]);
+        setProducts(data);
+      }
     })();
   }, []);
-  // searchMarketPlaceByPlayerId
+
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -309,83 +293,158 @@ export default function Example() {
           </div>
         </Dialog>
       </Transition.Root>
-      {product && (
-        <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
-          {/* Product */}
-          <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
-            {/* Product image */}
-            <div className="lg:col-span-4 lg:row-end-1">
-              <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100">
-                <img
-                  src={product.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
-                  alt={product.imageAlt}
-                  className="object-cover object-center"
-                />
+
+      <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
+        {/* Product */}
+
+        <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 mb-40">
+          {/* Image gallery */}
+          {products && products.length > 0 && (
+            <Tab.Group as="div" className="flex flex-col-reverse">
+              {/* Image selector */}
+
+              <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
+                <Tab.List className="grid grid-cols-4 gap-6">
+                  {products &&
+                    products.length > 0 &&
+                    products.map((eachProduct: any) => (
+                      <Tab
+                        key={eachProduct.id}
+                        className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4">
+                        {({ selected }) => (
+                          <>
+                            <span className="sr-only"> {eachProduct.id} </span>
+                            <span className="absolute inset-0 overflow-hidden rounded-md">
+                              <img
+                                src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
+                                alt=""
+                                className="h-full w-full object-cover object-center"
+                              />
+                            </span>
+                            <span
+                              className={classNames(
+                                selected ? "ring-indigo-500" : "ring-transparent",
+                                "pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </>
+                        )}
+                      </Tab>
+                    ))}
+                </Tab.List>
               </div>
-            </div>
 
-            {/* Product details */}
-            <div className="mx-auto mt-14 max-w-2xl sm:mt-16 lg:col-span-3 lg:row-span-2 lg:row-end-2 lg:mt-0 lg:max-w-none">
-              <div className="flex flex-col-reverse">
-                <div className="mt-4">
-                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.moment.play.headline}</h1>
+              <Tab.Panels className="aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100">
+                {products &&
+                  products.length > 0 &&
+                  products.map((eachProduct: any) => (
+                    <Tab.Panel key={eachProduct.id}>
+                      <img
+                        src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
+                        alt={eachProduct.id}
+                        className="h-full w-full object-cover object-center sm:rounded-lg"
+                      />
+                    </Tab.Panel>
+                  ))}
+              </Tab.Panels>
+            </Tab.Group>
+          )}
+          {/* Product info */}
+          {product && (
+            <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.moment.play.headline}</h1>
 
-                  <h2 id="information-heading" className="sr-only">
-                    Product information
-                  </h2>
-                  {/* <p className="mt-2 text-sm text-gray-500">
-                  Version {product.version.name} (Updated <time dateTime={product.version.datetime}>{product.version.date}</time>)
-                </p> */}
-                </div>
+              <div className="mt-3">
+                <h2 className="sr-only">Product information</h2>
+                <p className="text-3xl tracking-tight text-gray-900">{Number(product.price).toFixed(0)} $</p>
+              </div>
 
-                <div>
-                  <h3 className="sr-only">Reviews</h3>
+              {/* Reviews */}
+              <div className="mt-3">
+                <h3 className="sr-only">Reviews</h3>
+                <div className="flex items-center">
                   <div className="flex items-center">
                     {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
                         key={rating}
-                        className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                        className={classNames(product.rating > rating ? "text-indigo-500" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
                         aria-hidden="true"
                       />
                     ))}
                   </div>
-                  <p className="sr-only">{reviews.average} out of 5 stars</p>
+                  <p className="sr-only">{product.rating} out of 5 stars</p>
                 </div>
               </div>
 
-              <p className="mt-6 text-gray-500">{product.moment.play.description}</p>
+              <div className="mt-6">
+                <h3 className="sr-only">Description</h3>
 
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-                  Buy Moment @ {Number(product.price).toFixed(0)} $
-                </button>
-                {/* <Link
-                to={`/market-place/view/${product.id}/history`}
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-50 py-3 px-8 text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
-                View Past Owners
-              </Link> */}
+                <div className="space-y-6 text-base text-gray-700" dangerouslySetInnerHTML={{ __html: product.moment.play.description }} />
               </div>
 
-              <div className="mt-10 border-t border-gray-200 pt-10">
-                <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-                <div className="prose prose-sm mt-4 text-gray-500">
-                  <ul role="list">
-                    {Object.keys(product.moment.play.stats).map((highlight) => (
-                      <li key={highlight}>{product.moment.play.stats[highlight]}</li>
-                    ))}
-                  </ul>
+              <form className="mt-6">
+                <div className="sm:flex-col1 mt-10 flex">
+                  <button
+                    type="submit"
+                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
+                    Buy Moment
+                  </button>
+
+                  {/* <button
+                    type="button"
+                    className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                    <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
+                    <span className="sr-only">Add to favorites</span>
+                  </button> */}
                 </div>
-              </div>
+              </form>
+
+              <section aria-labelledby="details-heading" className="mt-12">
+                <h2 id="details-heading" className="sr-only">
+                  Additional details
+                </h2>
+
+                <div className="divide-y divide-gray-200 border-t">
+                  {details.map((detail) => (
+                    <Disclosure as="div" key={detail}>
+                      {({ open }) => (
+                        <>
+                          <h3>
+                            <Disclosure.Button className="group relative flex w-full items-center justify-between py-6 text-left">
+                              <span className={classNames(open ? "text-indigo-600" : "text-gray-900", "text-sm font-medium")}>{detail}</span>
+                              <span className="ml-6 flex items-center">
+                                {open ? (
+                                  <MinusIcon className="block h-6 w-6 text-indigo-400 group-hover:text-indigo-500" aria-hidden="true" />
+                                ) : (
+                                  <PlusIcon className="block h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </h3>
+                          <Disclosure.Panel as="div" className="prose prose-sm pb-6">
+                            <ul role="list">
+                              {Object.keys(product.moment.play.stats).map((highlight) => (
+                                <li key={highlight}>
+                                  {highlight.toUpperCase()} - {product.moment.play.stats[highlight]}
+                                </li>
+                              ))}
+                            </ul>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  ))}
+                </div>
+              </section>
             </div>
-          </div>
+          )}
+        </div>
 
-          <ViewNftHistory />
+        <ViewNftHistory />
 
-          <CustomerRatings />
-        </main>
-      )}
+        <CustomerRatings />
+      </main>
     </div>
   );
 }
