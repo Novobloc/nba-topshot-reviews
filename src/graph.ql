@@ -38,7 +38,7 @@ score,
 //3
 
 {
-     getMintedMoment(momentId:"6fb96965-75b3-40a1-833f-cc45b98e7e08"){
+     getMintedMoment(id:"6fb96965-75b3-40a1-833f-cc45b98e7e08"){
          data {
               id,
   version,

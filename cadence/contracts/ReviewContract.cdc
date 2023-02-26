@@ -6,15 +6,15 @@ pub contract ReviewContract {
         pub let stars: UInt64
         pub let comment: String
         pub let date: String
-        pub let momentId: String
+        pub let id: String
         
 
-        init(by: Address, stars: UInt64, comment: String, date: String, momentId: String) {
+        init(by: Address, stars: UInt64, comment: String, date: String, id: String) {
             self.by = by
             self.stars = stars
             self.comment = comment
             self.date = date
-            self.momentId = momentId
+            self.id = id
             
         }
     }
@@ -27,8 +27,8 @@ pub contract ReviewContract {
     }
 
     // create a review
-    pub fun createReview(by: Address, stars: UInt64, comment: String, date: String, momentId: String) {
-        let newReview =  review(by: by, stars: stars, comment: comment, date: date, momentId: momentId)
+    pub fun createReview(by: Address, stars: UInt64, comment: String, date: String, id: String) {
+        let newReview =  review(by: by, stars: stars, comment: comment, date: date, id: id)
         self.reviews.append(newReview)
         log(newReview)
     }
@@ -38,12 +38,12 @@ pub contract ReviewContract {
         return self.reviews
     }
 
-    // get reviews by momentId
-    pub fun getReviewsByMomentId(momentId: String): [review] {
+    // get reviews by id
+    pub fun getReviewsByid(id: String): [review] {
         let reviewsByMoment:[review] = [];
 
         for element in self.reviews {
-            if(momentId == element.momentId) {
+            if(id == element.id) {
                 reviewsByMoment.append(element)
              }
         }

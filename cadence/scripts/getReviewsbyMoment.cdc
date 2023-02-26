@@ -1,5 +1,5 @@
-import ReviewContract from 0x01
+import ReviewContract from 0xb880e7b2e2c0a70b
 
-pub fun main(momentId:String): [ReviewContract.review] {
-  return ReviewContract.getReviewsByMomentId(momentId:momentId)
+pub fun main(id:String): [ReviewContract.review] {
+  return ReviewContract.getReviewsByid(id:id)
 }

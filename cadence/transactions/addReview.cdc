@@ -1,6 +1,6 @@
-import ReviewContract from 0x01
+import ReviewContract from 0xb880e7b2e2c0a70b
 
-transaction(stars: UInt64, comment: String, date: String, momentId: String){
+transaction(stars: UInt64, comment: String, date: String, id: String){
 
     var signerAddress: Address;
 
@@ -11,7 +11,7 @@ transaction(stars: UInt64, comment: String, date: String, momentId: String){
 
     execute {
        
-        ReviewContract.createReview(by:self.signerAddress,stars:stars,comment:comment,date:date,momentId:momentId)
+        ReviewContract.createReview(by:self.signerAddress,stars:stars,comment:comment,date:date,id:id)
         
     }
 
