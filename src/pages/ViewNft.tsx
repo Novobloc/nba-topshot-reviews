@@ -18,7 +18,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import ViewNftHistory from "../components/ViewNft/ViewNftHistory";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
@@ -169,10 +169,12 @@ function classNames(...classes: any) {
 export default function Example() {
   const [open, setOpen] = useState(false);
   const [product, setProduct]: any = useState(null);
+  const d: any = useParams();
 
   useEffect(() => {
     (async () => {
-      const data = await searchMarketPlaceByPlayerId("cc8ee16f-f66b-41bb-a0db-ca9f80b7395c", "bb519451-4ff8-437b-a8aa-022eb883187a", 5);
+      const [setId, playId]: any = d.id.split("+");
+      const data = await searchMarketPlaceByPlayerId(setId, playId, 5);
       console.log(data, "data2");
       setProduct(data[0]);
     })();

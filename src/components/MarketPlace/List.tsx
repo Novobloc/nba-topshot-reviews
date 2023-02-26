@@ -40,7 +40,7 @@ export default function Example() {
                   </div>
                   <div className="pt-10 pb-4 text-center">
                     <h3 className="text-sm font-medium text-gray-900">
-                      <Link to={`/market-place/view/${product.id}`}>
+                      <Link to={`/market-place/view/${product.set.id}+${product.play.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {product.play.headline}
                       </Link>
