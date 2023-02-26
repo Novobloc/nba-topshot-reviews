@@ -145,6 +145,14 @@ function classNames(...classes: any) {
 
 const details = ["Highlights"];
 
+const imageSuffixes = [
+  { id: 1, name: "Category_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
+  { id: 1, name: "Game_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
+  { id: 1, name: "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
+  { id: 1, name: "ReverseHero_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" },
+  { id: 1, name: "Logos_2880_2880_Black.jpg?format=webp&quality=80&width=161&cv=1" }
+];
+
 export default function Example() {
   const [open, setOpen] = useState(false);
   const [product, setProduct]: any = useState(null);
@@ -305,9 +313,9 @@ export default function Example() {
 
               <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
                 <Tab.List className="grid grid-cols-4 gap-6">
-                  {products &&
-                    products.length > 0 &&
-                    products.map((eachProduct: any) => (
+                  {imageSuffixes &&
+                    imageSuffixes.length > 0 &&
+                    imageSuffixes.map((eachProduct: any) => (
                       <Tab
                         key={eachProduct.id}
                         className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4">
@@ -316,7 +324,7 @@ export default function Example() {
                             <span className="sr-only"> {eachProduct.id} </span>
                             <span className="absolute inset-0 overflow-hidden rounded-md">
                               <img
-                                src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
+                                src={product.moment.assetPathPrefix + eachProduct.name}
                                 alt=""
                                 className="h-full w-full object-cover object-center"
                               />
@@ -340,11 +348,17 @@ export default function Example() {
                   products.length > 0 &&
                   products.map((eachProduct: any) => (
                     <Tab.Panel key={eachProduct.id}>
-                      <img
-                        src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
+                      <video className="h-full w-full object-cover object-center sm:rounded-lg" controls autoPlay={true}>
+                        <source
+                          src="https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4"
+                          type="video/mp4"
+                        />
+                      </video>
+                      {/* <img
+                        // src={eachProduct.moment.assetPathPrefix + "Hero_2880_2880_Black.jpg?format=webp&quality=80&width=583&cv=1"}
                         alt={eachProduct.id}
                         className="h-full w-full object-cover object-center sm:rounded-lg"
-                      />
+                      /> */}
                     </Tab.Panel>
                   ))}
               </Tab.Panels>
