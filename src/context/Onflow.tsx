@@ -4,6 +4,7 @@ import { NETWORK } from "../constants/networks";
 import { init } from "@onflow/fcl-wc";
 import { IWeb3Context } from "../utils/types";
 import Logo from "../assets/nba-logo.jpeg";
+import { getUserTransactions } from "../utils/graphql";
 
 export const Web3Context = createContext<IWeb3Context>({} as IWeb3Context);
 
@@ -76,6 +77,34 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
 
   const logout = useCallback(async () => {
     await fcl.unauthenticate();
+  }, []);
+
+  const getTopShotMomentsByPlayerQuery = useCallback(async () => {
+    const result = await fcl.query({
+      cadence: `
+      import TopShot from 0xTOPSHOTADDRESS
+
+      pub fun main(account: Address): [UInt64] {
+
+          let acct = getAccount(account)
+
+          let collectionRef = acct.getCapability(/public/MomentCollection)
+                                  .borrow<&{TopShot.MomentCollectionPublic}>()!
+
+          return collectionRef.getIDs()
+      }
+      `,
+      args: (arg: any, t: any) => [
+        arg("0x5bd3724a9bbd7411", t.Address) // addr: Address
+      ]
+    });
+    console.log(result); // 13
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await getUserTransactions();
+    })();
   }, []);
 
   const executeTransaction = useCallback(async (cadence: string, args: any = () => [], options: any = {}) => {
