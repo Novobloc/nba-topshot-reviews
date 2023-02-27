@@ -194,13 +194,6 @@ pub fun main(): [ReviewContract.review] {
     console.log(result); // 13
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const b = await getPlaysInSetQuery();
-      console.log("b", b);
-    })();
-  }, []);
-
   const executeTransaction = useCallback(async (cadence: string, args: any = () => [], options: any = {}) => {
     setTransactionInProgress(true);
     setTransactionStatus(-1);

@@ -3,6 +3,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { searchEditions } from "../../utils/graphql";
 import { useWeb3Context } from "../../context/Onflow";
+import { useGlobalContext } from "../../context/GlobalContext/GlobalContext";
 import { formatReviews } from "../../utils/functions";
 import _ from "lodash";
 
@@ -12,23 +13,38 @@ function classNames(...classes: any) {
 
 export default function Example() {
   const { executeScript } = useWeb3Context();
+  const { setAppLoading } = useGlobalContext();
   const [market, setMarket]: any = useState(null);
 
   useEffect(() => {
     (async () => {
-      const data = await searchEditions();
-      const reviewsData = await getReviews();
-      data.forEach(async (item: { id: any }, i: any) => {
-        const reviews = reviewsData.filter((revItem: { id: any }) => {
-          return item.id === revItem.id;
-        });
-
-        data[i].reviews = await formatReviews(reviews);
-      });
-      console.log(data, "data11");
-      setMarket(data);
+      try {
+        if (market) return;
+        else {
+          const data = await fetchMarketData();
+          if (data) {
+            setMarket(data);
+          }
+        }
+      } catch (error) {
+        console.log(error, "error");
+      }
     })();
   }, []);
+
+  const fetchMarketData = async () => {
+    const data = await searchEditions();
+    const reviewsData = await getReviews();
+    data.forEach(async (item: { id: any }, i: any) => {
+      const reviews = reviewsData.filter((revItem: { id: any }) => {
+        return item.id === revItem.id;
+      });
+
+      data[i].reviews = await formatReviews(reviews);
+    });
+    console.log(data, "data11");
+    return data;
+  };
 
   const getReviews = async () => {
     const cadence = `
