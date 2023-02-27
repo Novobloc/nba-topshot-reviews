@@ -1,31 +1,45 @@
-import React from "react";
-import { Menu, Transition, Dialog } from "@headlessui/react";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { RadioGroup } from "@headlessui/react";
+
+const colors: any = [
+  { name: "1", bgColor: "bg-pink-500", selectedColor: "ring-pink-500", value: 1 },
+  { name: "2", bgColor: "bg-purple-500", selectedColor: "ring-purple-500", value: 2 },
+  { name: "3", bgColor: "bg-blue-500", selectedColor: "ring-blue-500", value: 3 },
+  { name: "4", bgColor: "bg-green-500", selectedColor: "ring-green-500", value: 4 },
+  { name: "5", bgColor: "bg-yellow-500", selectedColor: "ring-yellow-500", value: 5 }
+];
 
 export default function Example(props: any) {
-  const { closeModal, submitReview } = props;
+  const { closeModal, submitReview, getReviewsList } = props;
+  const [selectedColor, setSelectedColor] = useState(colors[4]);
+  const [comment, setComment] = useState("I loved it");
 
-  const handleSubmitReview = async () => {
+  const handleSubmitReview = async (e: any) => {
+    e.preventDefault();
     console.log("Submitting");
     const args = {
-      stars: 3,
-      comment: "Test",
-      date: "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)",
-      uniqueId: "123"
+      stars: selectedColor.value,
+      comment,
+      date: new Date().toString(),
+      uniqueId: "1234"
     };
-
-    const d = await submitReview(args);
-    console.log(d, "dd");
-
-    closeModal();
+    console.log(args, "e");
+    await submitReview(args);
+    setTimeout(async () => {
+      await getReviewsList();
+      closeModal();
+    }, 5000);
   };
+
+  function classNames(...classes: any) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   return (
     <>
       <div>
-        {/* <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
-        </div> */}
         <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
           <button
             type="button"
@@ -42,39 +56,56 @@ export default function Example(props: any) {
           <div className="mt-2">
             <div className="flex min-h-full flex-col justify-center py-2 sm:px-6 lg:px-8">
               <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white shadow sm:rounded-lg ">
-                  <form className="space-y-6" action="#" method="POST">
-                    <div className="sm:col-span-6">
-                      <div className="mt-1">
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        />
+                <div className="shadow sm:rounded-lg ">
+                  <form>
+                    <div className="mx-auto max-w-4xl px-4 lg:max-w-none lg:px-0">
+                      <div>
+                        <div className="mt-2">
+                          <RadioGroup value={selectedColor} onChange={setSelectedColor}>
+                            <RadioGroup.Label className="block text-sm font-medium text-gray-700">Choose a rating</RadioGroup.Label>
+                            <div className="mt-4 flex items-center space-x-3 ml-5">
+                              {colors.map((color: any) => (
+                                <RadioGroup.Option
+                                  key={color.name}
+                                  value={color}
+                                  className={({ active, checked }) =>
+                                    classNames(
+                                      color.selectedColor ? "cursor-pointer focus:outline-none" : "opacity-25 cursor-not-allowed",
+                                      active ? "ring-2 ring-offset-2 ring-indigo-500" : "",
+                                      checked
+                                        ? "bg-indigo-600 border-transparent text-white hover:bg-indigo-700"
+                                        : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50",
+                                      "border rounded-md py-3 px-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1"
+                                    )
+                                  }
+                                  disabled={!color.selectedColor}>
+                                  <RadioGroup.Label as="span">{color.name}</RadioGroup.Label>
+                                </RadioGroup.Option>
+                              ))}
+                            </div>
+                          </RadioGroup>
+                        </div>
                       </div>
-                    </div>
-                    <div className="sm:col-span-6">
-                      <div className="mt-1">
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-6">
-                      <div className="mt-1">
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        />
+
+                      <div className="mt-10">
+                        <div className="mt-6 grid grid-cols-3 gap-y-6 gap-x-4 sm:grid-cols-4">
+                          <div className="col-span-3 sm:col-span-4">
+                            <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                              Comment
+                            </label>
+                            <div className="mt-1">
+                              <textarea
+                                id="about"
+                                name="about"
+                                rows={4}
+                                onChange={(e) => setComment(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="you@example.com"
+                                defaultValue={comment}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </form>

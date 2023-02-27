@@ -3,45 +3,13 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Transition, Dialog } from "@headlessui/react";
 import SubmitReviewModal from "./SubmitReviewModal";
 
-const initialReviews = {
-  average: 4,
-  totalCount: 1624,
-  counts: [
-    { rating: 5, count: 1019 },
-    { rating: 4, count: 162 },
-    { rating: 3, count: 97 },
-    { rating: 2, count: 199 },
-    { rating: 1, count: 147 }
-  ],
-  featured: [
-    {
-      id: 1,
-      rating: 5,
-      content: `
-          <p>This is the bag of my dreams. I took it on my last vacation and was able to fit an absurd amount of snacks for the many long and hungry flights.</p>
-        `,
-      author: "Emily Selman",
-      avatarSrc:
-        "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-    }
-  ]
-};
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 function CustomerRatings(props: any) {
-  const { reviewList, submitReview } = props;
-
-  //   {
-  //     "by": "0x5bd3724a9bbd7411",
-  //     "stars": "4",
-  //     "comment": "One of the best moments",
-  //     "date": "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)",
-  //     "id": "123"
-  // }
-
+  const { submitReview, getReviewsById } = props;
   const [open, setOpen] = useState(false);
-  const [reviews, setReviews]: any = useState(initialReviews);
+  const [reviews, setReviews]: any = useState();
 
   const closeModal = () => {
     setOpen(false);
@@ -51,43 +19,53 @@ function CustomerRatings(props: any) {
     setOpen(true);
   };
 
+  const formatReviews = async (reviewList: any) => {
+    const format: any = { featured: reviewList };
+    const totalCount = reviewList.length;
+    let counts: any = [
+      { rating: 1, count: 0 },
+      { rating: 2, count: 0 },
+      { rating: 3, count: 0 },
+      { rating: 4, count: 0 },
+      { rating: 5, count: 0 }
+    ];
+    let avgSum = 0;
+    const prom = reviewList.map((item: any) => {
+      if (item.stars) {
+        const countsP = counts;
+        if (countsP && countsP.length > 0) {
+          countsP.forEach((element: any, index: any) => {
+            if (element.rating === Number(item.stars)) {
+              countsP[index] = { ...element, count: element.count + 1 };
+            }
+          });
+        }
+        avgSum = avgSum + Number(item.stars);
+        counts = countsP;
+        return;
+      }
+    });
+    const map = await Promise.all(prom);
+    format.average = avgSum / totalCount;
+    format.totalCount = totalCount;
+    format.counts = counts;
+    return format;
+  };
+
+  const getReviewsList = async () => {
+    const resp = await getReviewsById("1234");
+    if (resp && resp.length > 0) {
+      const format = await formatReviews(resp);
+      console.log(format, "format");
+      setReviews(format);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      if (reviewList && reviewList.length > 0) {
-        const format: any = { featured: reviewList };
-        const totalCount = reviewList.length;
-        let counts: any = [
-          { rating: 1, count: 0 },
-          { rating: 2, count: 0 },
-          { rating: 3, count: 0 },
-          { rating: 4, count: 0 },
-          { rating: 5, count: 0 }
-        ];
-        let avgSum = 0;
-        const prom = reviewList.map((item: any) => {
-          if (item.stars) {
-            const countsP = counts;
-            if (countsP && countsP.length > 0) {
-              countsP.forEach((element: any, index: any) => {
-                if (element.rating === Number(item.stars)) {
-                  countsP[index] = { ...element, count: element.count + 1 };
-                }
-              });
-            }
-            avgSum = avgSum + Number(item.stars);
-            counts = countsP;
-            return;
-          }
-        });
-        const map = await Promise.all(prom);
-        format.average = avgSum / totalCount;
-        format.totalCount = totalCount;
-        format.counts = counts;
-        console.log(format, "format");
-        setReviews(format);
-      }
+      await getReviewsList();
     })();
-  }, [props]);
+  }, []);
 
   return (
     <div>
@@ -98,55 +76,58 @@ function CustomerRatings(props: any) {
               Customer Reviews
             </h2>
 
-            <div className="mt-3 flex items-center">
-              <div>
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "flex-shrink-0 h-5 w-5")}
-                      aria-hidden="true"
-                    />
-                  ))}
+            {reviews && reviews.length > 0 && (
+              <div className="mt-3 flex items-center">
+                <div>
+                  <div className="flex items-center">
+                    {[0, 1, 2, 3, 4].map((rating) => (
+                      <StarIcon
+                        key={rating}
+                        className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "flex-shrink-0 h-5 w-5")}
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <p className="sr-only">{reviews.average} out of 5 stars</p>
                 </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
+                <p className="ml-2 text-sm text-gray-900">Based on {reviews.totalCount} reviews</p>
               </div>
-              <p className="ml-2 text-sm text-gray-900">Based on {reviews.totalCount} reviews</p>
-            </div>
+            )}
 
             <div className="mt-6">
               <h3 className="sr-only">Review data</h3>
 
               <dl className="space-y-3">
-                {reviews.counts.map((count: any) => (
-                  <div key={count.rating} className="flex items-center text-sm">
-                    <dt className="flex flex-1 items-center">
-                      <p className="w-3 font-medium text-gray-900">
-                        {count.rating}
-                        <span className="sr-only"> star reviews</span>
-                      </p>
-                      <div aria-hidden="true" className="ml-1 flex flex-1 items-center">
-                        <StarIcon
-                          className={classNames(count.count > 0 ? "text-yellow-400" : "text-gray-300", "flex-shrink-0 h-5 w-5")}
-                          aria-hidden="true"
-                        />
+                {reviews &&
+                  reviews.counts.map((count: any) => (
+                    <div key={count.rating} className="flex items-center text-sm">
+                      <dt className="flex flex-1 items-center">
+                        <p className="w-3 font-medium text-gray-900">
+                          {count.rating}
+                          <span className="sr-only"> star reviews</span>
+                        </p>
+                        <div aria-hidden="true" className="ml-1 flex flex-1 items-center">
+                          <StarIcon
+                            className={classNames(count.count > 0 ? "text-yellow-400" : "text-gray-300", "flex-shrink-0 h-5 w-5")}
+                            aria-hidden="true"
+                          />
 
-                        <div className="relative ml-3 flex-1">
-                          <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
-                          {count.count > 0 ? (
-                            <div
-                              className="absolute inset-y-0 rounded-full border border-yellow-400 bg-yellow-400"
-                              style={{ width: `calc(${count.count} / ${reviews.totalCount} * 100%)` }}
-                            />
-                          ) : null}
+                          <div className="relative ml-3 flex-1">
+                            <div className="h-3 rounded-full border border-gray-200 bg-gray-100" />
+                            {count.count > 0 ? (
+                              <div
+                                className="absolute inset-y-0 rounded-full border border-yellow-400 bg-yellow-400"
+                                style={{ width: `calc(${count.count} / ${reviews.totalCount} * 100%)` }}
+                              />
+                            ) : null}
+                          </div>
                         </div>
-                      </div>
-                    </dt>
-                    <dd className="ml-3 w-10 text-right text-sm tabular-nums text-gray-900">
-                      {Math.round((count.count / reviews.totalCount) * 100)}%
-                    </dd>
-                  </div>
-                ))}
+                      </dt>
+                      <dd className="ml-3 w-10 text-right text-sm tabular-nums text-gray-900">
+                        {Math.round((count.count / reviews.totalCount) * 100)}%
+                      </dd>
+                    </div>
+                  ))}
               </dl>
             </div>
 
@@ -185,7 +166,7 @@ function CustomerRatings(props: any) {
                       leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                       <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                        <SubmitReviewModal closeModal={closeModal} submitReview={submitReview} />
+                        <SubmitReviewModal closeModal={closeModal} submitReview={submitReview} getReviewsList={getReviewsList} />
                       </Dialog.Panel>
                     </Transition.Child>
                   </div>
@@ -199,28 +180,29 @@ function CustomerRatings(props: any) {
 
             <div className="flow-root">
               <div className="-my-12 divide-y divide-gray-200">
-                {reviews.featured.map((review: any) => (
-                  <div key={review.id} className="py-12">
-                    <div className="flex items-center">
-                      {/* <img src={review.avatarSrc} alt={`${review.author}.`} className="h-12 w-12 rounded-full" /> */}
-                      <div className="ml-4">
-                        <h4 className="text-sm font-bold text-gray-900">{review.by}</h4>
-                        <div className="mt-1 flex items-center">
-                          {[0, 1, 2, 3, 4].map((rating) => (
-                            <StarIcon
-                              key={rating}
-                              className={classNames(Number(review.stars) > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
-                              aria-hidden="true"
-                            />
-                          ))}
+                {reviews &&
+                  reviews.featured.map((review: any) => (
+                    <div key={review.id} className="py-12">
+                      <div className="flex items-center">
+                        {/* <img src={review.avatarSrc} alt={`${review.author}.`} className="h-12 w-12 rounded-full" /> */}
+                        <div className="ml-4">
+                          <h4 className="text-sm font-bold text-gray-900">{review.by}</h4>
+                          <div className="mt-1 flex items-center">
+                            {[0, 1, 2, 3, 4].map((rating) => (
+                              <StarIcon
+                                key={rating}
+                                className={classNames(Number(review.stars) > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                                aria-hidden="true"
+                              />
+                            ))}
+                          </div>
+                          <p className="sr-only">{review.rating} out of 5 stars</p>
                         </div>
-                        <p className="sr-only">{review.rating} out of 5 stars</p>
                       </div>
-                    </div>
 
-                    <div className="mt-4 space-y-6 text-base italic text-gray-600" dangerouslySetInnerHTML={{ __html: review.comment }} />
-                  </div>
-                ))}
+                      <div className="mt-4 space-y-6 text-base italic text-gray-600" dangerouslySetInnerHTML={{ __html: review.comment }} />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

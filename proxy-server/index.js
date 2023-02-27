@@ -23,7 +23,8 @@ app.post("/test", function (req, res) {
     maxBodyLength: Infinity,
     url: "https://public-api.nbatopshot.com/graphql",//: https://nbatopshot.com/marketplace/graphql?GetEditionListingDefault
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "User-Agent": "Sandeep-Hackathon"
     },
     data: data
   };

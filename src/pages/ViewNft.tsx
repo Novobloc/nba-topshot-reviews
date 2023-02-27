@@ -167,7 +167,7 @@ export default function Example() {
         setProduct(data[0]);
       }
       // Need to replace later
-      const rev = await getReviewsById("123");
+      const rev = await getReviewsById("1234");
       if (rev && rev.length > 0) {
         setReviewList(rev);
       }
@@ -519,7 +519,9 @@ export default function Example() {
 
         {/* <ViewNftHistory /> */}
 
-        {reviewList && reviewList.length > 0 && <CustomerRatings reviewList={reviewList} submitReview={submitReview} />}
+        {/* {reviewList && reviewList.length > 0 && ( */}
+        <CustomerRatings reviewList={reviewList} submitReview={submitReview} getReviewsById={getReviewsById} />
+        {/* )} */}
       </main>
     </div>
   );
