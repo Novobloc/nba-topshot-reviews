@@ -153,9 +153,9 @@ const imageSuffixes = [
 
 export default function Example() {
   const [open, setOpen] = useState(false);
-  const { executeScript } = useWeb3Context();
+  const { executeScript, executeTransaction } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
-  const [reviews, setReviews]: any = useState(null);
+  const [reviewList, setReviewList]: any = useState(null);
   const d: any = useParams();
 
   useEffect(() => {
@@ -166,9 +166,10 @@ export default function Example() {
       if (data && data.length > 0) {
         setProduct(data[0]);
       }
+      // Need to replace later
       const rev = await getReviewsById("123");
       if (rev && rev.length > 0) {
-        setReviews(rev);
+        setReviewList(rev);
       }
     })();
   }, []);
@@ -206,6 +207,33 @@ export default function Example() {
     ]);
     console.log(resp, "resp");
     return resp;
+  };
+
+  const submitReview = async (argsItem: any) => {
+    console.log(argsItem, "argsItem");
+    const { stars, comment, date, uniqueId } = argsItem;
+
+    const cadence = `
+           import ReviewContract from 0xb880e7b2e2c0a70b
+           
+           transaction(stars: UInt64, comment: String, date: String, id: String){
+           var signerAddress: Address;
+           prepare(signer: AuthAccount){
+              self.signerAddress = signer.address
+                  log(signer.address)
+              }
+            execute {
+             ReviewContract.createReview(by:self.signerAddress,stars:stars,comment:comment,date:date,id:id)
+            }
+     }
+    `;
+    const c = await executeTransaction(cadence, (arg: any, t: any) => [
+      arg(stars, t.UInt64), // addr: Address
+      arg(comment, t.String), // addr: Address
+      arg(date, t.String), // addr: Address
+      arg(uniqueId, t.String) // addr: Address
+    ]);
+    console.log("c", c);
   };
 
   return (
@@ -491,7 +519,7 @@ export default function Example() {
 
         {/* <ViewNftHistory /> */}
 
-        {reviews && reviews.length > 0 && <CustomerRatings reviews={reviews} />}
+        {reviewList && reviewList.length > 0 && <CustomerRatings reviewList={reviewList} submitReview={submitReview} />}
       </main>
     </div>
   );

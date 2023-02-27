@@ -3,7 +3,23 @@ import { Menu, Transition, Dialog } from "@headlessui/react";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Example(props: any) {
-  const { closeModal } = props;
+  const { closeModal, submitReview } = props;
+
+  const handleSubmitReview = async () => {
+    console.log("Submitting");
+    const args = {
+      stars: 3,
+      comment: "Test",
+      date: "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)",
+      uniqueId: "123"
+    };
+
+    const d = await submitReview(args);
+    console.log(d, "dd");
+
+    closeModal();
+  };
+
   return (
     <>
       <div>
@@ -72,8 +88,7 @@ export default function Example(props: any) {
         <button
           type="button"
           className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
-          // onClick={() => setOpen(false)}
-        >
+          onClick={handleSubmitReview}>
           Submit
         </button>
       </div>

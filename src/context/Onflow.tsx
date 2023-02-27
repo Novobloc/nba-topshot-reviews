@@ -194,40 +194,6 @@ pub fun main(): [ReviewContract.review] {
     console.log(result); // 13
   }, []);
 
-  //   useEffect(() => {
-  //     (async () => {
-  //       const cadence = `
-  //       import ReviewContract from 0xb880e7b2e2c0a70b
-
-  // transaction(stars: UInt64, comment: String, date: String, id: String){
-
-  //     var signerAddress: Address;
-
-  //     prepare(signer: AuthAccount){
-  //     self.signerAddress = signer.address
-  //         log(signer.address)
-  //     }
-
-  //     execute {
-
-  //         ReviewContract.createReview(by:self.signerAddress,stars:stars,comment:comment,date:date,id:id)
-
-  //     }
-
-  // }
-  //       `;
-  //       // 4 "One of the best moments" "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)" "123"
-
-  //       const c = await executeTransaction(cadence, (arg: any, t: any) => [
-  //         arg(4, t.UInt64), // addr: Address
-  //         arg("One of the best moments", t.String), // addr: Address
-  //         arg("Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)", t.String), // addr: Address
-  //         arg("123", t.String) // addr: Address
-  //       ]);
-  //       console.log("c", c);
-  //     })();
-  //   }, []);
-
   useEffect(() => {
     (async () => {
       const b = await getPlaysInSetQuery();

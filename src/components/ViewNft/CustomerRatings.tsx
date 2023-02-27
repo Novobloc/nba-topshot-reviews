@@ -30,7 +30,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 function CustomerRatings(props: any) {
-  const reviewProps: any = props.reviews;
+  const { reviewList, submitReview } = props;
 
   //   {
   //     "by": "0x5bd3724a9bbd7411",
@@ -53,12 +53,18 @@ function CustomerRatings(props: any) {
 
   useEffect(() => {
     (async () => {
-      if (reviewProps && reviewProps.length > 0) {
-        const format: any = { featured: reviewProps };
-        const totalCount = reviewProps.length;
-        let counts: any = [];
+      if (reviewList && reviewList.length > 0) {
+        const format: any = { featured: reviewList };
+        const totalCount = reviewList.length;
+        let counts: any = [
+          { rating: 1, count: 0 },
+          { rating: 2, count: 0 },
+          { rating: 3, count: 0 },
+          { rating: 4, count: 0 },
+          { rating: 5, count: 0 }
+        ];
         let avgSum = 0;
-        const prom = reviewProps.map((item: any) => {
+        const prom = reviewList.map((item: any) => {
           if (item.stars) {
             const countsP = counts;
             if (countsP && countsP.length > 0) {
@@ -67,9 +73,6 @@ function CustomerRatings(props: any) {
                   countsP[index] = { ...element, count: element.count + 1 };
                 }
               });
-            }
-            if (countsP && countsP.length == 0) {
-              countsP.push({ rating: Number(item.stars), count: 1 });
             }
             avgSum = avgSum + Number(item.stars);
             counts = countsP;
@@ -182,7 +185,7 @@ function CustomerRatings(props: any) {
                       leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                       <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                        <SubmitReviewModal closeModal={closeModal} />
+                        <SubmitReviewModal closeModal={closeModal} submitReview={submitReview} />
                       </Dialog.Panel>
                     </Transition.Child>
                   </div>
