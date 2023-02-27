@@ -32,7 +32,7 @@ export default function Example() {
               {" "}
               What&apos;s your favorite
               <img className="flex items-center justify-center  mr-1" src="https://developers.nbatopshot.com/img/light.svg" alt="" />
-              Moment?{" "}
+              <span className="text-9xl"> Moment? </span>
             </h1>
             <div className="flex flex-col items-center">
               <button
