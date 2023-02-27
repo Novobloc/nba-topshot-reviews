@@ -1,4 +1,11 @@
-## NBA Chronos
+## NBA TOPSHOT Reviews
+![Title](./images/title.png)
+
+ This project is a  review system for NBA Topshot moments. It allows users to add reviews for a particular moment. It also allows users to get all the reviews for a particular moment. 
+
+
+### Landing Page
+![Home Page](./images/home.png)
 
 info:
 
