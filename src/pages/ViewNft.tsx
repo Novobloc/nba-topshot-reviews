@@ -17,7 +17,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Tab, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { StarIcon } from "@heroicons/react/20/solid";
+import { StarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
@@ -478,8 +478,12 @@ export default function Example() {
                   <button
                     // type="submit"
                     onClick={redirectToWebsite}
-                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
-                    Buy on Market Place
+                    className="flex py-3 px-8 max-w-xs justify-center font-extralight bg-gradient-to-r rounded-md  border border-transparent bg-gray-900 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-slate-500 sm:w-full"
+                    // className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-semi-bold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                  >
+                    Buy on{" "}
+                    <img className="ml-2" width={100} height={100} src="https://nbatopshot.com/static/img/top-shot-logo-horizontal-white.svg" />
+                    <ArrowTopRightOnSquareIcon className="ml-2" width={25} />
                   </button>
 
                   {/* <button

@@ -26,7 +26,6 @@ export default function Header() {
         <div className="relative flex flex-col md:flex-row">
           <Link to="/" className="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
             <img className="flex items-center justify-center  mr-1" src="https://developers.nbatopshot.com/img/light.svg" alt="" />
-
             <span className="mx-auto ml-0 text-xl tracking-widest uppercase  leading-none  font-thin  text-slate-900 select-none">REVIEWS</span>
           </Link>
         </div>
