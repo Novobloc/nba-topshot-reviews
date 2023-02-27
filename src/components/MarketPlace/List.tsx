@@ -2,21 +2,63 @@ import React, { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { searchEditions } from "../../utils/graphql";
+import { useWeb3Context } from "../../context/Onflow";
+// import { formatReviews } from "../../utils/functions";
+import _ from "lodash";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
+  const { executeScript } = useWeb3Context();
   const [market, setMarket]: any = useState(null);
+  const [reviews, setReviews]: any = useState(null);
 
   useEffect(() => {
     (async () => {
       const data = await searchEditions();
       console.log(data, "data1");
       setMarket(data);
+      // Need to replace later
+      const rev = await getReviews();
+      const bIds: any = {};
+      data.forEach(function (obj: any) {
+        bIds[obj.id] = obj;
+      });
+      console.log(bIds, "bits");
+
+      // Return all elements in A, unless in B
+      const cb = rev.filter(function (obj: any) {
+        return !(obj.id in bIds);
+      });
+      console.log(cb, "cb");
+
+      // const ids = rev.map((revItem: any) => revItem.id);
+      // console.log(ids, "ids");
+      // const b = _.differenceBy(data, rev, "id");
+      // console.log(b, "b");
+
+      if (rev && rev.length > 0) {
+        // const format = await formatReviews(rev);
+        // console.log(format, "format");
+        // setReviews(format);
+      }
     })();
   }, []);
+
+  const getReviews = async () => {
+    const cadence = `
+    import ReviewContract from 0xb880e7b2e2c0a70b
+
+    pub fun main(): [ReviewContract.review] {
+      return ReviewContract.getReviews()
+    }
+`;
+    const resp = await executeScript(cadence, (arg: any, t: any) => []);
+    console.log(resp, "resp");
+    return resp;
+  };
 
   return (
     <div className="bg-white">

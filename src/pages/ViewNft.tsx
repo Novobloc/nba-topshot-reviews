@@ -188,19 +188,6 @@ export default function Example() {
     return window.open(`${baseUrl}${suffixUrl}`, "_blank", "noreferrer");
   };
 
-  const getReviews = async () => {
-    const cadence = `
-    import ReviewContract from 0xb880e7b2e2c0a70b
-
-    pub fun main(): [ReviewContract.review] {
-      return ReviewContract.getReviews()
-    }
-`;
-    const resp = await executeScript(cadence, (arg: any, t: any) => []);
-    console.log(resp, "resp");
-    return resp;
-  };
-
   const getReviewsById = async (id: string) => {
     const cadence = `
     import ReviewContract from 0xb880e7b2e2c0a70b
