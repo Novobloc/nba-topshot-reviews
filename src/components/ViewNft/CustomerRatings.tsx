@@ -8,7 +8,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 function CustomerRatings(props: any) {
-  const { submitReview, getReviewsById } = props;
+  const { submitReview, getReviewsById, product } = props;
   const [open, setOpen] = useState(false);
   const [reviews, setReviews]: any = useState();
 
@@ -21,7 +21,8 @@ function CustomerRatings(props: any) {
   };
 
   const getReviewsList = async () => {
-    const resp = await getReviewsById("1234");
+    const editionId = (product && product.moment.setPlay.ID) || "3aeb9a52-1858-4cb4-97b4-164c8a90b936";
+    const resp = await getReviewsById(editionId);
     if (resp && resp.length > 0) {
       const format = await formatReviews(resp);
       console.log(format, "format");
@@ -134,7 +135,7 @@ function CustomerRatings(props: any) {
                       leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                       <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                        <SubmitReviewModal closeModal={closeModal} submitReview={submitReview} getReviewsList={getReviewsList} />
+                        <SubmitReviewModal closeModal={closeModal} submitReview={submitReview} getReviewsList={getReviewsList} product={product} />
                       </Dialog.Panel>
                     </Transition.Child>
                   </div>

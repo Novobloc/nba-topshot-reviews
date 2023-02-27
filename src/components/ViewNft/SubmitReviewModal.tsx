@@ -12,18 +12,19 @@ const colors: any = [
 ];
 
 export default function Example(props: any) {
-  const { closeModal, submitReview, getReviewsList } = props;
+  const { closeModal, submitReview, getReviewsList, product } = props;
   const [selectedColor, setSelectedColor] = useState(colors[4]);
   const [comment, setComment] = useState("I loved it");
 
   const handleSubmitReview = async (e: any) => {
     e.preventDefault();
+    const editionId = (product && product.moment.setPlay.ID) || "3aeb9a52-1858-4cb4-97b4-164c8a90b936";
     console.log("Submitting");
     const args = {
       stars: selectedColor.value,
       comment,
       date: new Date().toString(),
-      uniqueId: "1234"
+      uniqueId: editionId
     };
     console.log(args, "e");
     await submitReview(args);
