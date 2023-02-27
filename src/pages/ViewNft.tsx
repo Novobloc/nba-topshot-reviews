@@ -22,6 +22,7 @@ import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
 import moment from "moment";
+import { useWeb3Context } from "../context/Onflow";
 
 const navigation = {
   categories: [
@@ -152,7 +153,9 @@ const imageSuffixes = [
 
 export default function Example() {
   const [open, setOpen] = useState(false);
+  const { executeScript } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
+  const [reviews, setReviews]: any = useState(null);
   const d: any = useParams();
 
   useEffect(() => {
@@ -163,6 +166,10 @@ export default function Example() {
       if (data && data.length > 0) {
         setProduct(data[0]);
       }
+      const rev = await getReviewsById("123");
+      if (rev && rev.length > 0) {
+        setReviews(rev);
+      }
     })();
   }, []);
 
@@ -171,6 +178,34 @@ export default function Example() {
     const baseUrl = "https://nbatopshot.com/listings/p2p/";
     const suffixUrl = d.id;
     return window.open(`${baseUrl}${suffixUrl}`, "_blank", "noreferrer");
+  };
+
+  const getReviews = async () => {
+    const cadence = `
+    import ReviewContract from 0xb880e7b2e2c0a70b
+
+    pub fun main(): [ReviewContract.review] {
+      return ReviewContract.getReviews()
+    }
+`;
+    const resp = await executeScript(cadence, (arg: any, t: any) => []);
+    console.log(resp, "resp");
+    return resp;
+  };
+
+  const getReviewsById = async (id: string) => {
+    const cadence = `
+    import ReviewContract from 0xb880e7b2e2c0a70b
+
+    pub fun main(id:String): [ReviewContract.review] {
+      return ReviewContract.getReviewsByid(id:id)
+    }    
+`;
+    const resp = await executeScript(cadence, (arg: any, t: any) => [
+      arg(id, t.String) // addr: Address
+    ]);
+    console.log(resp, "resp");
+    return resp;
   };
 
   return (
@@ -456,7 +491,7 @@ export default function Example() {
 
         {/* <ViewNftHistory /> */}
 
-        <CustomerRatings />
+        {reviews && reviews.length > 0 && <CustomerRatings reviews={reviews} />}
       </main>
     </div>
   );

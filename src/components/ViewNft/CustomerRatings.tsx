@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
-import { Menu, Transition, Dialog } from "@headlessui/react";
+import { Transition, Dialog } from "@headlessui/react";
 import SubmitReviewModal from "./SubmitReviewModal";
 
-const reviews = {
+const initialReviews = {
   average: 4,
   totalCount: 1624,
   counts: [
@@ -29,8 +29,19 @@ const reviews = {
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-function CustomerRatings() {
+function CustomerRatings(props: any) {
+  const reviewProps: any = props.reviews;
+
+  //   {
+  //     "by": "0x5bd3724a9bbd7411",
+  //     "stars": "4",
+  //     "comment": "One of the best moments",
+  //     "date": "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)",
+  //     "id": "123"
+  // }
+
   const [open, setOpen] = useState(false);
+  const [reviews, setReviews]: any = useState(initialReviews);
 
   const closeModal = () => {
     setOpen(false);
@@ -39,6 +50,41 @@ function CustomerRatings() {
   const openModal = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      if (reviewProps && reviewProps.length > 0) {
+        const format: any = { featured: reviewProps };
+        const totalCount = reviewProps.length;
+        let counts: any = [];
+        let avgSum = 0;
+        const prom = reviewProps.map((item: any) => {
+          if (item.stars) {
+            const countsP = counts;
+            if (countsP && countsP.length > 0) {
+              countsP.forEach((element: any, index: any) => {
+                if (element.rating === Number(item.stars)) {
+                  countsP[index] = { ...element, count: element.count + 1 };
+                }
+              });
+            }
+            if (countsP && countsP.length == 0) {
+              countsP.push({ rating: Number(item.stars), count: 1 });
+            }
+            avgSum = avgSum + Number(item.stars);
+            counts = countsP;
+            return;
+          }
+        });
+        const map = await Promise.all(prom);
+        format.average = avgSum / totalCount;
+        format.totalCount = totalCount;
+        format.counts = counts;
+        console.log(format, "format");
+        setReviews(format);
+      }
+    })();
+  }, [props]);
 
   return (
     <div>
@@ -69,7 +115,7 @@ function CustomerRatings() {
               <h3 className="sr-only">Review data</h3>
 
               <dl className="space-y-3">
-                {reviews.counts.map((count) => (
+                {reviews.counts.map((count: any) => (
                   <div key={count.rating} className="flex items-center text-sm">
                     <dt className="flex flex-1 items-center">
                       <p className="w-3 font-medium text-gray-900">
@@ -150,17 +196,17 @@ function CustomerRatings() {
 
             <div className="flow-root">
               <div className="-my-12 divide-y divide-gray-200">
-                {reviews.featured.map((review) => (
+                {reviews.featured.map((review: any) => (
                   <div key={review.id} className="py-12">
                     <div className="flex items-center">
-                      <img src={review.avatarSrc} alt={`${review.author}.`} className="h-12 w-12 rounded-full" />
+                      {/* <img src={review.avatarSrc} alt={`${review.author}.`} className="h-12 w-12 rounded-full" /> */}
                       <div className="ml-4">
-                        <h4 className="text-sm font-bold text-gray-900">{review.author}</h4>
+                        <h4 className="text-sm font-bold text-gray-900">{review.by}</h4>
                         <div className="mt-1 flex items-center">
                           {[0, 1, 2, 3, 4].map((rating) => (
                             <StarIcon
                               key={rating}
-                              className={classNames(review.rating > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                              className={classNames(Number(review.stars) > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
                               aria-hidden="true"
                             />
                           ))}
@@ -169,7 +215,7 @@ function CustomerRatings() {
                       </div>
                     </div>
 
-                    <div className="mt-4 space-y-6 text-base italic text-gray-600" dangerouslySetInnerHTML={{ __html: review.content }} />
+                    <div className="mt-4 space-y-6 text-base italic text-gray-600" dangerouslySetInnerHTML={{ __html: review.comment }} />
                   </div>
                 ))}
               </div>
