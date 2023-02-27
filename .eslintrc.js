@@ -18,6 +18,8 @@ module.exports = {
     "no-unused-vars": 0,
     "no-children-prop": 0,
     quotes: ["warn", "double"],
-    semi: ["warn", "always"]
+    semi: ["warn", "always"],
+    "react/no-unknown-property": 0,
+
   }
 };

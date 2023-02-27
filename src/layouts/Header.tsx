@@ -20,11 +20,13 @@ export default function Header() {
   };
 
   return (
-    <section className="w-full px-8 text-gray-700 bg-white">
+    <section className="w-full px-8 text-gray-700 ">
       <div className="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
         <div className="relative flex flex-col md:flex-row">
-          <Link to="/" className="flex items-center font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
-            <span className="mx-auto ml-0 text-xl tracking-widest uppercase  leading-none  font-thin  text-slate-900 select-none">NBA Chronos</span>
+          <Link to="/" className="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
+            <img className="flex items-center justify-center  mr-1" src="https://developers.nbatopshot.com/img/light.svg" alt="" />
+
+            <span className="mx-auto ml-0 text-xl tracking-widest uppercase  leading-none  font-thin  text-slate-900 select-none">REVIEWS</span>
           </Link>
         </div>
         <div className="inline-flex items-center ml-1 space-x-5 lg:justify-end">
