@@ -152,9 +152,6 @@ const imageSuffixes = [
   { id: 6, name: "https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4", type: "vid" }
 ];
 
-// Todo
-// Integrate Reviews in this screen in top , map with nba data and review data
-// Integrate Reviews in market place same as above
 export default function Example() {
   const [open, setOpen] = useState(false);
   const { executeScript, executeTransaction, user } = useWeb3Context();

@@ -1,5 +1,5 @@
 {
-  "name": "nba-chronos",
+  "name": "nba-topshot-reviews",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -87,6 +87,7 @@
     "start": "react-app-rewired start",
     "dev": "node proxy-server/index.js",
     "build": "CI=false react-app-rewired build",
+    "server-build": "npm run build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },

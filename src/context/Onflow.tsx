@@ -3,7 +3,6 @@ import * as fcl from "@onflow/fcl";
 import { NETWORK } from "../constants/networks";
 import { init } from "@onflow/fcl-wc";
 import { IWeb3Context } from "../utils/types";
-import Logo from "../assets/nba-logo.jpeg";
 
 export const Web3Context = createContext<IWeb3Context>({} as IWeb3Context);
 
