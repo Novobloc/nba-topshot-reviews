@@ -28,7 +28,7 @@ export default function Example() {
           <div className="w-full mx-auto text-left md:text-center">
             <h1
               style={{ wordSpacing: "2rem" }}
-              className="mb-6 text-9xl font-sans font-bold leading-snug max-w-8xl mx-auto tracking-tight  text-black    ">
+              className="mb-6 text-8xl font-sans font-bold leading-snug max-w-8xl mx-auto tracking-tight  text-black    ">
               {" "}
               What&apos;s your favorite
               <img className="flex items-center justify-center  mr-1" src="https://developers.nbatopshot.com/img/light.svg" alt="" />
