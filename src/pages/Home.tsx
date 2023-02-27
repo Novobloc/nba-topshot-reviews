@@ -28,7 +28,7 @@ export default function Example() {
             <button
               // onClick={connectWallet}
               disabled={false}
-              className=" w-64 h-14 font-normal rounded-md  border border-transparent  bg-gradient-to-r from-blue-400 via-indigo-800 to-blue-600  uppercase py-1 px-0 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 focus:ring-offset-slate-500">
+              className=" w-64 h-14 font-normal rounded-md  border border-transparent  bg-gradient-to-r from-indigo-800 via-blue-800 to-indigo-800  uppercase py-1 px-0 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 focus:ring-offset-slate-500">
              Rate Now ⭐
             </button>
             
