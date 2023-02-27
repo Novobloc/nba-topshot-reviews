@@ -172,7 +172,7 @@ export default function Example() {
         setProduct(data[0]);
       }
       // Need to replace later
-      const editionId = (data[0] && data[0].moment.setPlay.ID) || "3aeb9a52-1858-4cb4-97b4-164c8a90b936";
+      const editionId = data[0] && data[0].moment.setPlay.ID;
       const rev = await getReviewsById(editionId);
       if (rev && rev.length > 0) {
         const format = await formatReviews(rev);

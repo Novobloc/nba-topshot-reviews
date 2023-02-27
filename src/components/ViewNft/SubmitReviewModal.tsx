@@ -18,7 +18,7 @@ export default function Example(props: any) {
 
   const handleSubmitReview = async (e: any) => {
     e.preventDefault();
-    const editionId = (product && product.moment.setPlay.ID) || "3aeb9a52-1858-4cb4-97b4-164c8a90b936";
+    const editionId = product && product.moment.setPlay.ID;
     console.log("Submitting");
     const args = {
       stars: selectedColor.value,

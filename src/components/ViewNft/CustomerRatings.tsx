@@ -21,7 +21,7 @@ function CustomerRatings(props: any) {
   };
 
   const getReviewsList = async () => {
-    const editionId = (product && product.moment.setPlay.ID) || "3aeb9a52-1858-4cb4-97b4-164c8a90b936";
+    const editionId = product && product.moment.setPlay.ID;
     const resp = await getReviewsById(editionId);
     if (resp && resp.length > 0) {
       const format = await formatReviews(resp);
@@ -34,7 +34,7 @@ function CustomerRatings(props: any) {
     (async () => {
       await getReviewsList();
     })();
-  }, []);
+  }, [product]);
 
   return (
     <div>

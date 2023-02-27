@@ -3,7 +3,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { searchEditions } from "../../utils/graphql";
 import { useWeb3Context } from "../../context/Onflow";
-// import { formatReviews } from "../../utils/functions";
+import { formatReviews } from "../../utils/functions";
 import _ from "lodash";
 
 function classNames(...classes: any) {
@@ -13,37 +13,20 @@ function classNames(...classes: any) {
 export default function Example() {
   const { executeScript } = useWeb3Context();
   const [market, setMarket]: any = useState(null);
-  const [reviews, setReviews]: any = useState(null);
 
   useEffect(() => {
     (async () => {
       const data = await searchEditions();
-      console.log(data, "data1");
+      const reviewsData = await getReviews();
+      data.forEach(async (item: { id: any }, i: any) => {
+        const reviews = reviewsData.filter((revItem: { id: any }) => {
+          return item.id === revItem.id;
+        });
+
+        data[i].reviews = await formatReviews(reviews);
+      });
+      console.log(data, "data11");
       setMarket(data);
-      // Need to replace later
-      const rev = await getReviews();
-      const bIds: any = {};
-      data.forEach(function (obj: any) {
-        bIds[obj.id] = obj;
-      });
-      console.log(bIds, "bits");
-
-      // Return all elements in A, unless in B
-      const cb = rev.filter(function (obj: any) {
-        return !(obj.id in bIds);
-      });
-      console.log(cb, "cb");
-
-      // const ids = rev.map((revItem: any) => revItem.id);
-      // console.log(ids, "ids");
-      // const b = _.differenceBy(data, rev, "id");
-      // console.log(b, "b");
-
-      if (rev && rev.length > 0) {
-        // const format = await formatReviews(rev);
-        // console.log(format, "format");
-        // setReviews(format);
-      }
     })();
   }, []);
 
@@ -56,7 +39,6 @@ export default function Example() {
     }
 `;
     const resp = await executeScript(cadence, (arg: any, t: any) => []);
-    console.log(resp, "resp");
     return resp;
   };
 
@@ -84,24 +66,26 @@ export default function Example() {
                     <h3 className="text-sm font-medium text-gray-900">
                       <Link to={`/market-place/view/${product.set.id}+${product.play.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
-                        {product.play.headline} ({product.play.stats.teamAtMoment})
+                        {product.play.headline}
+                        <br />({product.play.stats.teamAtMoment})
                       </Link>
                     </h3>
                     <div className="mt-3 flex flex-col items-center">
-                      <p className="sr-only">{product.rating} out of 5 stars</p>
+                      <p className="sr-only">{product.reviews.average} out of 5 stars</p>
                       <div className="flex items-center">
-                        {[0, 1, 2, 3, 4].map((rating) => (
+                        {[1, 2, 3, 4, 5].map((rating) => (
                           <StarIcon
                             key={rating}
-                            className={classNames(product.rating > rating ? "text-yellow-400" : "text-gray-200", "flex-shrink-0 h-5 w-5")}
+                            className={classNames(product.reviews.average > rating ? "text-yellow-400" : "text-gray-200", "flex-shrink-0 h-5 w-5")}
                             aria-hidden="true"
                           />
                         ))}
                       </div>
-                      <p className="mt-1 text-sm text-gray-500">{product.reviewCount} reviews</p>
+                      <p className="mt-1 text-sm text-gray-500">{product.reviews.totalCount} reviews</p>
                     </div>
-                    <p className="mt-4 text-base font-medium text-gray-900">
-                      {Number(product.priceRange.min)}$ - {Number(product.priceRange.max)}$
+                    <p className="mt-2 text-base font-medium text-gray-900">{product.setPlay.circulations.burned} Moments burned</p>
+                    <p className="mt-2 text-base font-medium text-gray-900">
+                      {product.tier.replace("MOMENT_TIER_", "")} / {product.setPlay.circulations.circulationCount} CC
                     </p>
                   </div>
                 </div>
