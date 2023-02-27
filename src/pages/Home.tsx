@@ -19,19 +19,20 @@ export default function Example() {
       <section className="h-auto  tails-selected-element  z-50">
         <div className="px-10 py-14 mx-auto max-w-7xl">
           <div className="w-full mx-auto text-left md:text-center">
-            <h1 style={{wordSpacing:"2rem"}} className="mb-6 text-9xl font-sans font-bold leading-snug max-w-8xl mx-auto tracking-tight  text-black    text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500">
+            <h1
+              style={{ wordSpacing: "2rem" }}
+              className="mb-6 text-9xl font-sans font-bold leading-snug max-w-8xl mx-auto tracking-tight  text-black    text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-500 to-purple-500">
               {" "}
-              What&apos;s your favorite 
+              What&apos;s your favorite
               <img className="flex items-center justify-center  mr-1" src="https://developers.nbatopshot.com/img/light.svg" alt="" />
-               Moment?{" "}
+              Moment?{" "}
             </h1>
             <button
               // onClick={connectWallet}
               disabled={false}
               className=" w-64 h-14 font-normal rounded-md  border border-transparent  bg-gradient-to-r from-indigo-800 via-blue-800 to-indigo-800  uppercase py-1 px-0 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 focus:ring-offset-slate-500">
-             Rate Now ⭐
+              Rate Now ⭐
             </button>
-            
           </div>
         </div>
       </section>
