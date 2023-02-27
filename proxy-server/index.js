@@ -13,7 +13,7 @@ app.get("/", function (req, res) {
 });
 
 // eslint-disable-next-line no-unused-vars
-app.post("/test", function (req, res) {
+app.post("/query", function (req, res) {
   var data = JSON.stringify({
     query: req.body.query,
     variables: req.body.variables

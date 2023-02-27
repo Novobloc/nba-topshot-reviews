@@ -1,4 +1,5 @@
 import axios from "axios";
+const API_URL = "https://nba-topshot-reviews.onrender.com/query";
 
 export const getMomentsWithHighestBurnedTopshotScore = async () => {
   const query = `{
@@ -24,7 +25,7 @@ export const getMomentsWithHighestBurnedTopshotScore = async () => {
     }
   }
   `;
-  const res = await axios.post("http://localhost:8080/test", { query });
+  const res = await axios.post(API_URL, { query });
   return res.data.data.getMomentsWithHighestBurnedTopshotScore.moments;
 };
 
@@ -43,7 +44,7 @@ export const getAllPlayers = async () => {
       }
   }
   `;
-  const res = await axios.post("http://localhost:8080/test", { query });
+  const res = await axios.post(API_URL, { query });
   return res.data.data.allPlayers.data;
 };
 
@@ -62,7 +63,7 @@ export const dummyReq = async () => {
       }
   }
   `;
-  const res = await axios.post("http://localhost:8080/test", { query, variables: {} });
+  const res = await axios.post(API_URL, { query, variables: {} });
   return res.data.data;
 };
 
@@ -230,7 +231,7 @@ fragment CirculationsFragment on SetPlayCirculations {
       searchInput: { pagination: { cursor: "", direction: "RIGHT", limit } }
     }
   };
-  const res = await axios.post("http://localhost:8080/test", { query, variables });
+  const res = await axios.post(API_URL, { query, variables });
   return res.data.data.searchMarketplaceTransactions.data.searchSummary.data.data;
 };
 
@@ -482,6 +483,6 @@ export const searchEditions = async () => {
     orderBy: "UPDATED_AT_DESC",
     searchInput: { pagination: { direction: "RIGHT", cursor: "", limit: 12 } }
   };
-  const res = await axios.post("http://localhost:8080/test", { query, variables });
+  const res = await axios.post(API_URL, { query, variables });
   return res.data.data.searchEditionListings.data.searchSummary.data.data;
 };
