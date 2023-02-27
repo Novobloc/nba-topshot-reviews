@@ -23,6 +23,7 @@ import CustomerRatings from "../components/ViewNft/CustomerRatings";
 import { searchMarketPlaceByPlayerId } from "../utils/graphql";
 import moment from "moment";
 import { useWeb3Context } from "../context/Onflow";
+import { formatReviews } from "../utils/functions";
 
 const navigation = {
   categories: [
@@ -151,11 +152,15 @@ const imageSuffixes = [
   { id: 6, name: "https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4", type: "vid" }
 ];
 
+// Todo
+// Integrate Reviews in this screen in top , map with nba data and review data
+// Integrate Reviews in market place same as above
 export default function Example() {
   const [open, setOpen] = useState(false);
   const { executeScript, executeTransaction } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
   const [reviewList, setReviewList]: any = useState(null);
+  const [reviews, setReviews]: any = useState(null);
   const d: any = useParams();
 
   useEffect(() => {
@@ -169,7 +174,8 @@ export default function Example() {
       // Need to replace later
       const rev = await getReviewsById("1234");
       if (rev && rev.length > 0) {
-        setReviewList(rev);
+        const format = await formatReviews(rev);
+        setReviews(format);
       }
     })();
   }, []);
@@ -452,21 +458,27 @@ export default function Example() {
               <h4 className="text-l font-semi-bold tracking-tight text-gray-900">{product.moment.setPlay.circulations.burned} Moments burned</h4>
 
               {/* Reviews */}
-              <div className="mt-3">
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
+              {reviews && (
+                <div className="mt-3">
+                  <h3 className="sr-only">Reviews</h3>
                   <div className="flex items-center">
-                    {[0, 1, 2, 3, 4].map((rating) => (
-                      <StarIcon
-                        key={rating}
-                        className={classNames(product.rating > rating ? "text-indigo-500" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
-                        aria-hidden="true"
-                      />
-                    ))}
+                    <div className="flex items-center">
+                      {[1, 2, 3, 4, 5].map((rating) => (
+                        <StarIcon
+                          key={rating}
+                          className={classNames(Number(reviews.average) > rating ? "text-indigo-500" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                          aria-hidden="true"
+                        />
+                      ))}
+                      <span className="ml-5">
+                        {/* {Number(reviews.average)} */}
+                        Based on {Number(reviews.totalCount)} Reviews
+                      </span>
+                    </div>
+                    <p className="sr-only">{Number(reviews.average)} out of 5 stars</p>
                   </div>
-                  <p className="sr-only">{product.rating} out of 5 stars</p>
                 </div>
-              </div>
+              )}
 
               <div className="mt-6">
                 <h3 className="sr-only">Description</h3>
