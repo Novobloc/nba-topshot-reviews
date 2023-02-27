@@ -8,7 +8,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 function CustomerRatings(props: any) {
-  const { submitReview, getReviewsById, product } = props;
+  const { submitReview, getReviewsById, product, user } = props;
   const [open, setOpen] = useState(false);
   const [reviews, setReviews]: any = useState();
 
@@ -101,13 +101,14 @@ function CustomerRatings(props: any) {
             </div>
 
             <div className="mt-10">
-              <h3 className="text-lg font-medium text-gray-900">Share your thoughts</h3>
-              <p className="mt-1 text-sm text-gray-600">If you’ve used this product, share your thoughts with other customers</p>
+              <h3 className="text-lg font-bold text-gray-900">Share your thoughts</h3>
+              <p className="mt-1 text-sm text-gray-600">If you’ve used this moment, please share your thoughts with other customers</p>
 
               <button
                 onClick={openModal}
+                disabled={user && user.loggedIn ? false : true}
                 className="mt-6 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-50 sm:w-auto lg:w-full">
-                Write a review
+                {user && user.loggedIn ? "Write a review" : "Login to write a review"}
               </button>
             </div>
 

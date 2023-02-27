@@ -157,7 +157,7 @@ const imageSuffixes = [
 // Integrate Reviews in market place same as above
 export default function Example() {
   const [open, setOpen] = useState(false);
-  const { executeScript, executeTransaction } = useWeb3Context();
+  const { executeScript, executeTransaction, user } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
   const [reviewList, setReviewList]: any = useState(null);
   const [reviews, setReviews]: any = useState(null);
@@ -520,7 +520,7 @@ export default function Example() {
         {/* <ViewNftHistory /> */}
 
         {/* {reviewList && reviewList.length > 0 && ( */}
-        <CustomerRatings reviewList={reviewList} submitReview={submitReview} getReviewsById={getReviewsById} product={product} />
+        <CustomerRatings reviewList={reviewList} submitReview={submitReview} getReviewsById={getReviewsById} product={product} user={user} />
         {/* )} */}
       </main>
     </div>

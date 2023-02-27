@@ -17,6 +17,7 @@ export default function Header() {
 
   const connectWallet = async () => {
     await connect();
+    return navigate("/market-place");
   };
 
   return (
