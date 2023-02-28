@@ -21,7 +21,7 @@ const imageSuffixes = [
   { id: 6, name: "https://storage.googleapis.com/assets-nbatopshot/plays/sexton_c_dunk_clevsac_verdap_mar_27_2021_vertical_9x16.mp4", type: "vid" }
 ];
 
-export default function Example() {
+export default function ViewNft() {
   const { executeScript, executeTransaction, user } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
   const [reviewList, setReviewList]: any = useState(null);
