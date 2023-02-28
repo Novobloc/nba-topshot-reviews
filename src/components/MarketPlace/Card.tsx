@@ -35,6 +35,11 @@ export default function Card({ product }: any) {
           </Link>
         </h3>
         <div className="mt-3 flex flex-col items-center">
+          <span className="flex m-2">
+            <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" />{" "}
+            <span className="font-bold">100</span>
+          </span>
+
           <p className="sr-only">{product.reviews.average} out of 5 stars</p>
           <div className="flex items-center">
             {[1, 2, 3, 4, 5].map((rating) => (
