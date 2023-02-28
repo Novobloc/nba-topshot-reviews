@@ -1,18 +1,9 @@
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Sphere, OrbitControls, MeshDistortMaterial } from "@react-three/drei";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import { ThreeDBackground } from "../components/Home/ThreeDBackground";
 
-function SphereComp() {
-  return (
-    <Sphere args={[1, 100, 200]} scale={4}>
-      <MeshDistortMaterial color={"#3b82f6"} attach={"material"} wireframe={true} distort={0.5} speed={1.5} roughness={1} />
-    </Sphere>
-  );
-}
-
-export default function Example() {
+export default function Home() {
   const navigate = useNavigate();
 
   const redirectToMarketPlace = async () => {
@@ -44,15 +35,7 @@ export default function Example() {
         </div>
       </section>
 
-      <Canvas style={{ height: "100vh", position: "fixed", top: 0, left: 0, zIndex: -50 }}>
-        <OrbitControls enableZoom={false} />
-        <ambientLight intensity={0.5} />
-        <directionalLight intensity={1} position={[-2, 5, 2]} />
-
-        <Suspense fallback={null}>
-          <SphereComp />
-        </Suspense>
-      </Canvas>
+      <ThreeDBackground />
     </div>
   );
 }
