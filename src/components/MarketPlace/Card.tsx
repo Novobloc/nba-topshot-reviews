@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+import React from "react";
+import { StarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 
 function classNames(...classes: any) {
@@ -17,6 +17,12 @@ const momentTier: any = {
 };
 
 export default function Card({ product }: any) {
+  const redirectToWebsite = () => {
+    const baseUrl = "https://nbatopshot.com/listings/p2p/";
+    const suffixUrl = `${product.set.id}+${product.play.id}`;
+    return window.open(`${baseUrl}${suffixUrl}`, "_blank", "noreferrer");
+  };
+
   return (
     <div key={product.id} className="group relative border border-gray-200 p-4 sm:p-6">
       <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-200 group-hover:opacity-75">
@@ -42,7 +48,7 @@ export default function Card({ product }: any) {
 
           <p className="sr-only">{product.reviews.average} out of 5 stars</p>
           <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((rating) => (
+            {[0, 1, 2, 3, 4].map((rating) => (
               <StarIcon
                 key={rating}
                 className={classNames(product.reviews.average > rating ? "text-yellow-400" : "text-gray-200", "flex-shrink-0 h-5 w-5")}
@@ -57,17 +63,14 @@ export default function Card({ product }: any) {
           {product.tier.replace("MOMENT_TIER_", "")}
         </span>
         <p className="mt-2 text-base font-medium text-gray-900">{product.setPlay.circulations.circulationCount} CC</p>
-        <form className="mt-6">
-          <div className="sm:flex-col1 mt-10 flex">
-            <button
-              // type="submit"
-              // onClick={redirectToWebsite}
-              className="flex py-3 px-8 max-w-xs justify-center font-extralight bg-gradient-to-r rounded-md  border border-transparent bg-gray-900 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-slate-500 sm:w-full">
-              Buy on <img className="ml-2" width={100} height={100} src="https://nbatopshot.com/static/img/top-shot-logo-horizontal-white.svg" />
-              {/* <ArrowTopRightOnSquareIcon className="ml-2" width={25} /> */}
-            </button>
-          </div>
-        </form>
+        <div className="sm:flex-col1 mt-10 flex">
+          <button
+            onClick={redirectToWebsite}
+            className="absolute flex py-3 px-8 max-w-xs justify-center font-extralight bg-gradient-to-r rounded-md  border border-transparent bg-gray-900 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-slate-500 sm:w-full">
+            Buy on <img className="ml-2" width={100} height={100} src="https://nbatopshot.com/static/img/top-shot-logo-horizontal-white.svg" />
+            <ArrowTopRightOnSquareIcon className="ml-2" width={25} />
+          </button>
+        </div>
         <p className="mt-2 text-sm italic font-thin  text-gray-900">{product.setPlay.circulations.burned} Moments burned</p>
       </div>
     </div>

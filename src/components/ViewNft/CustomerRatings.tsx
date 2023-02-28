@@ -49,7 +49,7 @@ function CustomerRatings(props: any) {
               <div className="mt-3 flex items-center">
                 <div>
                   <div className="flex items-center">
-                    {[1, 2, 3, 4, 5].map((rating) => (
+                    {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
                         key={rating}
                         className={classNames(reviews.average > rating ? "text-yellow-400" : "text-gray-300", "flex-shrink-0 h-5 w-5")}

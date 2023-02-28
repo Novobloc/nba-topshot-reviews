@@ -184,7 +184,7 @@ export default function ViewNft() {
                   <h3 className="sr-only">Reviews</h3>
                   <div className="flex items-center">
                     <div className="flex items-center">
-                      {[1, 2, 3, 4, 5].map((rating) => (
+                      {[0, 1, 2, 3, 4].map((rating) => (
                         <StarIcon
                           key={rating}
                           className={classNames(Number(reviews.average) > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
@@ -237,7 +237,7 @@ export default function ViewNft() {
                         return (
                           highlight !== "__typename" && (
                             <tr>
-                              <td className="font-bold font-sans" >
+                              <td className="font-bold font-sans">
                                 {highlight.replace(/([A-Z])/g, " $1").replace(/^./, function (str: string) {
                                   return str.toUpperCase();
                                 })}
