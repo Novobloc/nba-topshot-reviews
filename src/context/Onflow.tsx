@@ -193,6 +193,11 @@ pub fun main(): [ReviewContract.review] {
     console.log(result); // 13
   }, []);
 
+  const getAccountBalance = async () => {
+    const account = await fcl.send([fcl.getAccount(user.addr)]).then(fcl.decode);
+    return account;
+  };
+
   const executeTransaction = useCallback(async (cadence: string, args: any = () => [], options: any = {}) => {
     setTransactionInProgress(true);
     setTransactionStatus(-1);
@@ -235,6 +240,7 @@ pub fun main(): [ReviewContract.review] {
       logout,
       user,
       executeTransaction,
+      getAccountBalance,
       executeScript,
       transaction: {
         id: txId,
@@ -243,7 +249,7 @@ pub fun main(): [ReviewContract.review] {
         errorMessage: transactionError
       }
     }),
-    [connect, logout, txId, transactionInProgress, transactionStatus, transactionError, executeTransaction, executeScript, user]
+    [connect, logout, txId, transactionInProgress, transactionStatus, transactionError, executeTransaction, getAccountBalance, executeScript, user]
   );
 
   return (

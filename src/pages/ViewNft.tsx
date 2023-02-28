@@ -22,11 +22,11 @@ const imageSuffixes = [
 ];
 
 export default function ViewNft() {
-  const { executeScript, executeTransaction, user } = useWeb3Context();
+  const { executeScript, executeTransaction, user, getAccountBalance } = useWeb3Context();
   const [product, setProduct]: any = useState(null);
-  const [reviewList, setReviewList]: any = useState(null);
   const [reviews, setReviews]: any = useState(null);
   const [exchangeRates, setExchangeRates]: any = useState(null);
+  const [balance, setBalance]: any = useState(null);
   const d: any = useParams();
 
   useEffect(() => {
@@ -37,7 +37,6 @@ export default function ViewNft() {
       if (data && data.length > 0) {
         setProduct(data[0]);
       }
-      // Need to replace later
       const editionId = data[0] && data[0].moment.setPlay.ID;
       const rev = await getReviewsById(editionId);
       if (rev && rev.length > 0) {
@@ -47,6 +46,10 @@ export default function ViewNft() {
       const exchangeData = await getExchangeRates();
       if (exchangeData) {
         setExchangeRates(exchangeData);
+      }
+      const account: any = await getAccountBalance();
+      if (account) {
+        setBalance(account.balance);
       }
     })();
   }, []);
@@ -224,7 +227,9 @@ export default function ViewNft() {
                 </span>
                 <span className="flex m-2">
                   <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/flow-flow-logo.png" />{" "}
-                  <span className="font-bold">{(Number(product.price) * exchangeRates.usdToFlow).toFixed(2)}</span>
+                  <span className="font-bold">
+                    {(Number(product.price) * exchangeRates.usdToFlow).toFixed(2)} (Bal: {balance ? (balance / Math.pow(10, 8)).toFixed(2) : ""} )
+                  </span>
                 </span>
               </div>
 
@@ -275,7 +280,7 @@ export default function ViewNft() {
           </div>
         )}
 
-        <CustomerRatings reviewList={reviewList} submitReview={submitReview} getReviewsById={getReviewsById} product={product} user={user} />
+        <CustomerRatings submitReview={submitReview} getReviewsById={getReviewsById} product={product} user={user} />
       </main>
     </div>
   );

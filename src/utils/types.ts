@@ -3,6 +3,7 @@ export interface IWeb3Context {
   logout: () => void;
   executeTransaction: (cadence: string, args?: any, options?: any) => void;
   executeScript: (cadence: string, args?: any) => any;
+  getAccountBalance: () => void;
   user: {
     loggedIn: boolean | null;
     addr: string;
