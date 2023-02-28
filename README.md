@@ -1,20 +1,42 @@
 ![Title](./images/title.png)
 
-## NBA TOPSHOT Reviews
+## NBA TOPSHOT REVIEWS
 
 ### What's you favorite moment?
 
+---
+
 <br>
 
-NBA Topshot Reviews is a DAPP built on flow chain using NBA TopShot. It allows users to add reviews for a particular moment. It also allows users to get all the reviews for a particular moment.
+`The NBA Topshot Reviews` **DAPP** is built on flow chain using `NBA TopShot` APIs.In the Dapp Users can add reviews for a particular moment or view all reviews for a particular moment.
+
+Whether you're a collector, an NBA fan, or NFT Trader, explore the Moments here and find out what the community thinks about them.
+
+Users can see the price of Trending `Moments` in `USDC` and click on Buy button to buy on NBA Topshot marketplace.
 <br>
 <br>
+
+---
 
 ### Landing Page
 
 <br>
 
 ![Home Page](./images/home.png)
+
+<br>
+
+## Demo
+
+Demo link : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Deployed Link </a>
+
+> NOTE: _The proxy server need to be cold started. If the data is not loaded first time, Refresh a few times_
+
+Github : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Repo Link </a>
+
+Video : <a style="margin-bottom: 5px;" href="" target="_blank"> Youtube Link </a>
+
+PPT: <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.app/project-ppt.pdf" target="_blank"> Document Link </a>
 
 <br>
 
@@ -40,12 +62,21 @@ git clone https://github.com/Novobloc/nba-topshot-reviews
 npm start
 ```
 
-4. Open this link in browser http://localhost:3000
+4. run proxy server
+   (This server used to fix the cors issue of NBA topshot GraphQl APIs when called from React)
 
-5. Hey, You just ran the code in your system, thats it. Now you can rate your favorite Topshot moment .
+```
+ npm run dev
+```
+
+5. Open this link in browser http://localhost:3000
+
+6. Hey, You just ran the code in your system, thats it. Now you can rate your favorite Topshot moment .
 
 <br>
 <br>
+
+---
 
 ## Stack We Used
 
@@ -65,18 +96,6 @@ npm start
    6. Deployment: We created a contract and deployed it on Flow Block Chain testnet from Flow CLI. (You can find the command we used below)
 
 <br>
-<br>
-
-## Demo
-
-<br>
-
-Github : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Repo Link </a>
-
-Video : <a style="margin-bottom: 5px;" href="" target="_blank"> Youtube Link </a>
-
-PPT: <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.app/project-ppt.pdf" target="_blank"> Document Link </a>
-
 <br>
 
 ## Meet Our Team
@@ -145,7 +164,7 @@ At the end of the deployment, you should see the following output:
 ReviewContract -> 0xb880e7b2e2c0a70b (daf12b7c1f67897398ded3c0faf86cd980eb321f8bda27a163bf892970dbc9d7)
 ```
 
-To run the tests, run the following command:
+To run the scripts, run the following command:
 
 ```
 flow scripts execute cadence/scripts/getAllReviews.cdc --network=testnet
