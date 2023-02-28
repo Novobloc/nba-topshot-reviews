@@ -57,7 +57,7 @@ export default function List() {
       <main className="pb-24">
         {/* Product grid */}
         <section aria-labelledby="products-heading" className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
-          <div className="-mx-px grid grid-cols-2 gap-10 sm:mx-0 md:grid-cols-3 lg:grid-cols-3">
+          <div className="-mx-px grid grid-cols-2 gap-10 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
             {market && market.map((product: any) => <Card key={Math.random()} product={product} />)}
           </div>
         </section>
