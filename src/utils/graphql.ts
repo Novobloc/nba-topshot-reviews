@@ -48,25 +48,6 @@ export const getAllPlayers = async () => {
   return res.data.data.allPlayers.data;
 };
 
-export const dummyReq = async () => {
-  //   {
-  //     "name": "Aari McDonald",
-  //     "id": "1630462"
-  // }
-  const query = `{
-    getSpecialNFTs {
-          data {
-              name,
-              id
-          },
-          size
-      }
-  }
-  `;
-  const res = await axios.post(API_URL, { query, variables: {} });
-  return res.data.data;
-};
-
 export const searchMarketPlaceByPlayerId = async (setId: string, playId: string, limit: number) => {
   const query = `query searchMarketplaceTransactions ($input: SearchMarketplaceTransactionsInput!) {
     searchMarketplaceTransactions(input: $input) {

@@ -1,8 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import { Web3ContextProvider } from "./context/Onflow";
 import "./index.css";
+import { Web3ContextProvider } from "./context/Onflow";
 import { GlobalProvider } from "./context/GlobalContext/GlobalContext";
 
 const element = document.getElementById("root");

@@ -154,7 +154,6 @@ function CustomerRatings(props: any) {
                   reviews.featured.map((review: any) => (
                     <div key={review.id} className="py-12">
                       <div className="flex items-center">
-                        {/* <img src={review.avatarSrc} alt={`${review.author}.`} className="h-12 w-12 rounded-full" /> */}
                         <div className="ml-4">
                           <h4 className="text-sm font-bold text-gray-900">{review.by}</h4>
                           <div className="mt-1 flex items-center">

@@ -1,15 +1,13 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Sphere, OrbitControls, MeshDistortMaterial } from "@react-three/drei";
-import { Link, useNavigate } from "react-router-dom";
-import { StarIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router-dom";
+import { ArrowRightIcon } from "@heroicons/react/20/solid";
 
 function SphereComp() {
-  // const texture = useTexture('/terrazo.png')
   return (
     <Sphere args={[1, 100, 200]} scale={4}>
       <MeshDistortMaterial color={"#3b82f6"} attach={"material"} wireframe={true} distort={0.5} speed={1.5} roughness={1} />
-      {/* <meshNormalMaterial wireframe={true} /> */}
     </Sphere>
   );
 }
@@ -39,7 +37,6 @@ export default function Example() {
                 onClick={redirectToMarketPlace}
                 className="flex  max-w-xs font-extralight py-4 px-2 justify-center bg-gradient-to-r rounded-md border border-transparent bg-gray-900 text-base text-white shadow hover:bg-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-slate-500 sm:w-full">
                 Explore Moments
-                {/* <img className="ml-2" width={100} height={100} src="https://nbatopshot.com/static/img/top-shot-logo-horizontal-white.svg" /> */}
                 <ArrowRightIcon className="ml-2" width={20} />
               </button>
             </div>

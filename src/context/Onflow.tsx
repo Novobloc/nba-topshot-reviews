@@ -42,8 +42,8 @@ export const Web3ContextProvider = ({ children }: { children: ReactNode; network
 
   useEffect(() => {
     const { flowNetwork, accessApi, walletDiscovery, walletDiscoveryApi, walletDiscoveryInclude, addresses } = NETWORK;
-    const iconUrl = window.location.origin + "/nba-logo-black.png";
-    const appTitle = "NBA Chronos";
+    const iconUrl = window.location.origin + "/title.png";
+    const appTitle = "NBA Topshot Reviews";
 
     fcl.config({
       "app.detail.title": appTitle,
