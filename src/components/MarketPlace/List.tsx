@@ -3,7 +3,6 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { searchEditions } from "../../utils/graphql";
 import { useWeb3Context } from "../../context/Onflow";
-import { useGlobalContext } from "../../context/GlobalContext/GlobalContext";
 import { formatReviews } from "../../utils/functions";
 import _ from "lodash";
 

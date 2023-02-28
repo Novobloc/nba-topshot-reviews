@@ -7,7 +7,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const redirectToMarketPlace = async () => {
-    return navigate("/market-place");
+    return navigate("/discover");
   };
 
   return (

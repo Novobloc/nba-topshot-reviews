@@ -9,7 +9,7 @@ export const Heading = () => (
           Live the&nbsp;
           <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-[#1C428A] via-blue-500 to-[#C7102E] lg:inline">moment</span> for
           <br className="lg:block hidden"></br> for the&nbsp;
-          <span className="w-full text-transparent bg-clip-text bg-gradient-to-r  from-green-400 via-blue-500 to-purple-500 lg:inline">
+          <span className="w-full text-transparent bg-clip-text bg-gradient-to-r  from-emerald-600 via-blue-500 to-purple-600 lg:inline">
             moment
           </span>{" "}
         </h1>

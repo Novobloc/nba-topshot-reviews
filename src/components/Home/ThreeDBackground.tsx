@@ -9,7 +9,6 @@ export const ThreeDBackground = () => {
       <OrbitControls enableZoom={false} />
       <ambientLight intensity={0.5} />
       <directionalLight intensity={1} position={[-2, 5, 2]} />
-
       <Suspense fallback={null}>
         <SphereComp />
       </Suspense>
