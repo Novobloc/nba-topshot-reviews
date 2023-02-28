@@ -40,6 +40,29 @@ PPT: <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.ap
 
 <br>
 
+
+---
+
+## Stack We Used
+
+<br>
+
+![alt text](images/stack.png)
+<br>
+
+1. Frontend: We used **React JS**, Tailwind CSS and 3js for UI.
+
+2. Blockchain :
+   1. Onflow SDK: We used **@onflow/fcl** SDK for social login and wallet.
+   2. Cadence: We used **Cadence** language to write scripts and transactions in order to interact with Flow chain.
+   3. GraphQL: We used **GraphQL** to query nba topshot and to retrieve data in real time.
+   4. Chain: We used **Flow** blockchain testnet to store review data.
+   5. Dapper Studios: We built our app using **NBA Topshot** from Dapper Studios.
+   6. Deployment: We created a contract and deployed it on Flow Block Chain testnet from Flow CLI. (You can find the command we used below)
+
+<br>
+<br>
+
 ## Steps to Run the Project
 
 <br>
@@ -76,27 +99,46 @@ npm start
 <br>
 <br>
 
----
+## Steps to deploy Cadence on Flow :
 
-## Stack We Used
+### Account
 
-<br>
+```
+0xb880e7b2e2c0a70b
+```
 
-![alt text](images/stack.png)
-<br>
+### Check status
 
-1. Frontend: We used **React JS**, Tailwind CSS and 3js for UI.
+```
+flow status -n testnet
+```
 
-2. Blockchain :
-   1. Onflow SDK: We used **@onflow/fcl** SDK for social login and wallet.
-   2. Cadence: We used **Cadence** language to write scripts and transactions in order to interact with Flow chain.
-   3. GraphQL: We used **GraphQL** to query nba topshot and to retrieve data in real time.
-   4. Chain: We used **Flow** blockchain testnet to store review data.
-   5. Dapper Studios: We built our app using **NBA Topshot** from Dapper Studios.
-   6. Deployment: We created a contract and deployed it on Flow Block Chain testnet from Flow CLI. (You can find the command we used below)
+To deploy the contract, run the following commands:
 
-<br>
-<br>
+```
+flow project deploy --network=testnet
+```
+
+At the end of the deployment, you should see the following output:
+
+```
+ReviewContract -> 0xb880e7b2e2c0a70b (daf12b7c1f67897398ded3c0faf86cd980eb321f8bda27a163bf892970dbc9d7)
+```
+
+To run the scripts, run the following command:
+
+```
+flow scripts execute cadence/scripts/getAllReviews.cdc --network=testnet
+```
+
+To add a review, run the following command:
+
+```
+
+flow transactions send cadence/transactions/addReview.cdc 4 "One of the best moments" "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)" "123" --network=testnet
+```
+
+
 
 ## Meet Our Team
 
@@ -138,41 +180,3 @@ npm start
 
 <br />
 
-## Flow Commands:
-
-### Account
-
-```
-0xb880e7b2e2c0a70b
-```
-
-### Check status
-
-```
-flow status -n testnet
-```
-
-To deploy the contract, run the following commands:
-
-```
-flow project deploy --network=testnet
-```
-
-At the end of the deployment, you should see the following output:
-
-```
-ReviewContract -> 0xb880e7b2e2c0a70b (daf12b7c1f67897398ded3c0faf86cd980eb321f8bda27a163bf892970dbc9d7)
-```
-
-To run the scripts, run the following command:
-
-```
-flow scripts execute cadence/scripts/getAllReviews.cdc --network=testnet
-```
-
-To add a review, run the following command:
-
-```
-
-flow transactions send cadence/transactions/addReview.cdc 4 "One of the best moments" "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)" "123" --network=testnet
-```
