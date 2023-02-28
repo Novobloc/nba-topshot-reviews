@@ -1,20 +1,130 @@
-## NBA TOPSHOT Reviews
 ![Title](./images/title.png)
 
- This project is a  review system for NBA Topshot moments. It allows users to add reviews for a particular moment. It also allows users to get all the reviews for a particular moment. 
+## NBA TOPSHOT Reviews
 
+### What's you favorite moment?
+
+<br>
+
+NBA Topshot Reviews is a DAPP built on flow chain using NBA TopShot. It allows users to add reviews for a particular moment. It also allows users to get all the reviews for a particular moment.
+<br>
+<br>
+
+## Demo
+
+<br>
 
 ### Landing Page
+
+<br>
+
 ![Home Page](./images/home.png)
 
-info:
+<br>
+
+## Steps to Run the Project
+
+<br>
+
+1. Clone the repo
 
 ```
-Public Key               52e91c811e8f0ac9b35d9244366420bdee1196df2c30c60945b9f51be6e7c294679dadc3ea0dd5de00bb3eb7bfc2b4fef35ecea72d2b4f5a6bd25b6f7227be40
-
-
-account 0xb880e7b2e2c0a70b
+git clone https://github.com/Novobloc/nba-topshot-reviews
 ```
+
+2. Install the dependencies.
+
+```
+ npm i
+```
+
+3. Start the app using command
+
+```
+npm start
+```
+
+4. Open this link in browser http://localhost:3000
+
+5. Hey, You just ran the code in your system, thats it. Now you can rate your favorite Topshot moment .
+
+<br>
+<br>
+
+## Stack We Used
+
+<br>
+
+![alt text](images/stack.png)
+<br>
+
+1. Frontend: We used **React JS**, Tailwind CSS and 3js for UI.
+
+2. Blockchain :
+   1. Onflow SDK: We used **@onflow/fcl** SDK for social login and wallet.
+   2. Cadence: We used **Cadence** language to write scripts and transactions in order to interact with Flow chain.
+   3. GraphQL: We used **GraphQL** to query nba topshot and to retrieve data in real time.
+   4. Chain: We used **Flow** blockchain testnet to store review data.
+   5. Dapper Studios: We built our app using **NBA Topshot** from Dapper Studios.
+   6. Deployment: We created a contract and deployed it on Flow Block Chain testnet from Flow CLI. (You can find the command we used below)
+
+<br>
+
+## Meet Our Team
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+   <p style="flex:1">Shiva Kumar: </p>
+   <div style="flex:4; justify-content: space-between;">
+      <a href="https://www.linkedin.com/in/shivamangina/" target="_blank">
+      <img src=https://img.shields.io/badge/linkedin-%2300acee.svg?color=405DE6&style=for-the-badge&logo=linkedin&logoColor=white alt=linkedin style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://twitter.com/shivakmangina" target="_blank">
+      <img src=https://img.shields.io/badge/twitter-%2300acee.svg?color=1DA1F2&style=for-the-badge&logo=twitter&logoColor=white alt=twitter style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://www.instagram.com/shiva_mangina" target="_blank">
+      <img src=https://img.shields.io/badge/instagram-%ff5851db.svg?color=C13584&style=for-the-badge&logo=instagram&logoColor=white alt=instagram style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://github.com/shivamangina" target="_blank">
+      <img src=https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white alt=github style="margin-bottom: 5px;" />
+      </a>
+   </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+   <p style="flex:1">Sandeep Kumar: </p>
+   <div style="flex:4; justify-content: space-between;">
+      <a href="https://www.linkedin.com/in/satyasandeep" target="_blank">
+      <img src=https://img.shields.io/badge/linkedin-%2300acee.svg?color=405DE6&style=for-the-badge&logo=linkedin&logoColor=white alt=linkedin style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://twitter.com/satyasandeep76" target="_blank">
+      <img src=https://img.shields.io/badge/twitter-%2300acee.svg?color=1DA1F2&style=for-the-badge&logo=twitter&logoColor=white alt=twitter style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://www.instagram.com/satyasandeep007" target="_blank">
+      <img src=https://img.shields.io/badge/instagram-%ff5851db.svg?color=C13584&style=for-the-badge&logo=instagram&logoColor=white alt=instagram style="margin-bottom: 5px;" />
+      </a>
+      <a href="https://github.com/satyasandeep007" target="_blank">
+      <img src=https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white alt=github style="margin-bottom: 5px;" />
+      </a>
+   </div>
+</div>
+
+<br />
+
+## Flow Commands:
+
+### Public Key:
+
+```
+52e91c811e8f0ac9b35d9244366420bdee1196df2c30c60945b9f51be6e7c294679dadc3ea0dd5de00bb3eb7bfc2b4fef35ecea72d2b4f5a6bd25b6f7227be40
+```
+
+### Account
+
+```
+0xb880e7b2e2c0a70b
+```
+
+### Check status
 
 ```
 flow status -n testnet
