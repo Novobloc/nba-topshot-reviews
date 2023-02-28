@@ -14,8 +14,8 @@ const CreatorCard = (props: any) => {
         <p className="text-gray-400">{data.description || "Fred Clemens"}</p>
       </div>
       <div>
-        {data.tags &&
-          data.tags.length > 0 &&
+        {true &&
+          true &&
           data.tags.map((tag: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined, i: React.Key | null | undefined) => {
             return (
               <span className="px-2 py-1 m-1 text-green-800 text-xs font-medium bg-green-100 rounded-full" key={i}>
