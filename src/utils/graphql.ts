@@ -48,7 +48,7 @@ export const getAllPlayers = async () => {
   return res.data.data.allPlayers.data;
 };
 
-export const searchMarketPlaceByPlayerId = async (setId: string, playId: string, limit: number) => {
+export const searchMarketPlaceByPlayerId = async ({ byEditions, byPlayIDs }: any) => {
   const query = `query searchMarketplaceTransactions ($input: SearchMarketplaceTransactionsInput!) {
     searchMarketplaceTransactions(input: $input) {
       data {
@@ -207,9 +207,12 @@ fragment CirculationsFragment on SetPlayCirculations {
   const variables = {
     input: {
       sortBy: "PRICE_DESC",
-      // filters: { byEditions: [{ setID: "208ae30a-a4fe-42d4-9e51-e6fd1ad2a7a9", playID: "41b16a7d-d172-46bb-915a-3898af25f10e" }], byParallels: [0] },
-      filters: { byEditions: [{ setID: setId, playID: playId }], byParallels: [0] },
-      searchInput: { pagination: { cursor: "", direction: "RIGHT", limit } }
+      filters: {
+        ...(byEditions ? { byEditions } : {}),
+        ...(byPlayIDs ? { byPlayIDs } : {}),
+        byParallels: [0]
+      },
+      searchInput: { pagination: { cursor: "", direction: "RIGHT", limit: 1 } }
     }
   };
   const res = await axios.post(API_URL, { query, variables });
@@ -466,4 +469,42 @@ export const searchEditions = async () => {
   };
   const res = await axios.post(API_URL, { query, variables });
   return res.data.data.searchEditionListings.data.searchSummary.data.data;
+};
+
+export const getExchangeRates = async () => {
+  const query = `query GetExchangeRates($input: GetExchangeRatesInput!) {
+  getExchangeRates(input: $input) {
+    exchangeRates {
+      from
+      to
+      rate
+      __typename
+    }
+    __typename
+  }
+}`;
+  const variables = {
+    input: {
+      currencies: [
+        {
+          from: "USD",
+          to: "FLOW"
+        },
+        {
+          from: "USD",
+          to: "ETH"
+        }
+      ]
+    }
+  };
+  const res = await axios.post(API_URL, { query, variables });
+  const resData = res.data.data.getExchangeRates.exchangeRates;
+  let formatData = {};
+  if (resData.length > 0) {
+    formatData = {
+      usdToFlow: resData[0].rate,
+      usdToEth: resData[1].rate
+    };
+  }
+  return formatData;
 };

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { searchMarketPlaceByPlayerId } from "../../utils/graphql";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -16,12 +17,24 @@ const momentTier: any = {
   MOMENT_TIER_ANTHOLOGY: "bg-red-500"
 };
 
-export default function Card({ product }: any) {
+export default function Card({ product, exchangeRates }: any) {
+  const [price, setPrice]: any = useState(null);
+
   const redirectToWebsite = () => {
     const baseUrl = "https://nbatopshot.com/listings/p2p/";
     const suffixUrl = `${product.set.id}+${product.play.id}`;
     return window.open(`${baseUrl}${suffixUrl}`, "_blank", "noreferrer");
   };
+
+  useEffect(() => {
+    (async () => {
+      const byEditions = [{ setID: product.set.id, playID: product.play.id }];
+      const data = await searchMarketPlaceByPlayerId({ byEditions });
+      if (data && data.length > 0) {
+        setPrice(data[0].price);
+      }
+    })();
+  }, [product]);
 
   return (
     <div key={product.id} className="group relative border border-gray-200 p-4 sm:p-6">
@@ -41,10 +54,20 @@ export default function Card({ product }: any) {
           </Link>
         </h3>
         <div className="mt-3 flex flex-col items-center">
-          <span className="flex m-2">
-            <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" />{" "}
-            <span className="font-bold">100</span>
-          </span>
+          <div className="-ml-4 mt-6 flex flex-row">
+            <span className="flex m-2">
+              <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" />{" "}
+              <span className="font-bold">{Number(price).toFixed(2)}</span>
+            </span>
+            <span className="flex m-2">
+              <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/ethereum-eth-logo.png" />{" "}
+              <span className="font-bold">{(Number(price) * exchangeRates.usdToEth).toFixed(2)}</span>
+            </span>
+            <span className="flex m-2">
+              <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/flow-flow-logo.png" />{" "}
+              <span className="font-bold">{(Number(price) * exchangeRates.usdToFlow).toFixed(2)}</span>
+            </span>
+          </div>
 
           <p className="sr-only">{product.reviews.average} out of 5 stars</p>
           <div className="flex items-center">

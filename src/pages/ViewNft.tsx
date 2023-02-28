@@ -3,7 +3,7 @@ import { Tab } from "@headlessui/react";
 import { StarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
 import CustomerRatings from "../components/ViewNft/CustomerRatings";
-import { searchMarketPlaceByPlayerId } from "../utils/graphql";
+import { searchMarketPlaceByPlayerId, getExchangeRates } from "../utils/graphql";
 import moment from "moment";
 import { useWeb3Context } from "../context/Onflow";
 import { formatReviews } from "../utils/functions";
@@ -26,13 +26,14 @@ export default function ViewNft() {
   const [product, setProduct]: any = useState(null);
   const [reviewList, setReviewList]: any = useState(null);
   const [reviews, setReviews]: any = useState(null);
+  const [exchangeRates, setExchangeRates]: any = useState(null);
   const d: any = useParams();
 
   useEffect(() => {
     (async () => {
       const [setId, playId]: any = d.id.split("+");
-      const data = await searchMarketPlaceByPlayerId(setId, playId, 1);
-      console.log(data, "data2");
+      const byEditions = [{ setID: setId, playID: playId }];
+      const data = await searchMarketPlaceByPlayerId({ byEditions });
       if (data && data.length > 0) {
         setProduct(data[0]);
       }
@@ -42,6 +43,10 @@ export default function ViewNft() {
       if (rev && rev.length > 0) {
         const format = await formatReviews(rev);
         setReviews(format);
+      }
+      const exchangeData = await getExchangeRates();
+      if (exchangeData) {
+        setExchangeRates(exchangeData);
       }
     })();
   }, []);
@@ -64,7 +69,6 @@ export default function ViewNft() {
     const resp = await executeScript(cadence, (arg: any, t: any) => [
       arg(id, t.String) // addr: Address
     ]);
-    console.log(resp, "resp");
     return resp;
   };
 
@@ -99,7 +103,7 @@ export default function ViewNft() {
     <div className="bg-white">
       <main className="mx-auto px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-32 lg:max-w-7xl lg:px-8">
         {/* Product */}
-        {product && (
+        {product && exchangeRates && (
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 mb-20">
             {/* Image gallery */}
             <Tab.Group as="div" className="flex flex-col-reverse">
@@ -209,8 +213,23 @@ export default function ViewNft() {
                 />
               </div>
 
-              <form className="mt-6">
-                <div className="sm:flex-col1 mt-10 flex">
+              <div className="-ml-4 mt-6 flex flex-row">
+                <span className="flex m-2">
+                  <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" />{" "}
+                  <span className="font-bold">{Number(product.price).toFixed(2)}</span>
+                </span>
+                <span className="flex m-2">
+                  <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/ethereum-eth-logo.png" />{" "}
+                  <span className="font-bold">{(Number(product.price) * exchangeRates.usdToEth).toFixed(2)}</span>
+                </span>
+                <span className="flex m-2">
+                  <img className="mx-2 " width={20} height={20} src="https://cryptologos.cc/logos/flow-flow-logo.png" />{" "}
+                  <span className="font-bold">{(Number(product.price) * exchangeRates.usdToFlow).toFixed(2)}</span>
+                </span>
+              </div>
+
+              <form className="mt-4">
+                <div className="sm:flex-col1 mt-4 flex">
                   <button
                     // type="submit"
                     onClick={redirectToWebsite}

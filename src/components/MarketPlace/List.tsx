@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { searchEditions } from "../../utils/graphql";
+import { searchEditions, getExchangeRates } from "../../utils/graphql";
 import { useWeb3Context } from "../../context/Onflow";
 import { formatReviews } from "../../utils/functions";
 import _ from "lodash";
@@ -8,13 +8,19 @@ import Card from "./Card";
 export default function List() {
   const { executeScript } = useWeb3Context();
   const [market, setMarket]: any = useState(null);
+  const [exchangeRates, setExchangeRates]: any = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
         if (market) return;
         else {
+          const exchangeData = await getExchangeRates();
+          if (exchangeData) {
+            setExchangeRates(exchangeData);
+          }
           const data = await fetchMarketData();
+          console.log(data, "data");
           if (data) {
             setMarket(data);
           }
@@ -56,7 +62,7 @@ export default function List() {
         {/* Product grid */}
         <section aria-labelledby="products-heading" className="mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
           <div className="-mx-px grid grid-cols-2 gap-10 sm:mx-0 md:grid-cols-3 lg:grid-cols-3">
-            {market && market.map((product: any) => <Card key={Math.random()} product={product} />)}
+            {market && market.map((product: any) => <Card key={Math.random()} product={product} exchangeRates={exchangeRates} />)}
           </div>
         </section>
       </main>

@@ -24,7 +24,7 @@ app.post("/query", function (req, res) {
     url: "https://public-api.nbatopshot.com/graphql",//: https://nbatopshot.com/marketplace/graphql?GetEditionListingDefault
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "Sandeep-Hackathon"
+      "User-Agent": `Hackathon-2023-${Date.now()}`
     },
     data: data
   };
