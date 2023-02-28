@@ -10,10 +10,6 @@ NBA Topshot Reviews is a DAPP built on flow chain using NBA TopShot. It allows u
 <br>
 <br>
 
-## Demo
-
-<br>
-
 ### Landing Page
 
 <br>
@@ -69,6 +65,19 @@ npm start
    6. Deployment: We created a contract and deployed it on Flow Block Chain testnet from Flow CLI. (You can find the command we used below)
 
 <br>
+<br>
+
+## Demo
+
+<br>
+
+Github : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Repo Link </a>
+
+Video : <a style="margin-bottom: 5px;" href="" target="_blank"> Youtube Link </a>
+
+PPT: <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.app/project-ppt.pdf" target="_blank"> Document Link </a>
+
+<br>
 
 ## Meet Our Team
 
@@ -111,12 +120,6 @@ npm start
 <br />
 
 ## Flow Commands:
-
-### Public Key:
-
-```
-52e91c811e8f0ac9b35d9244366420bdee1196df2c30c60945b9f51be6e7c294679dadc3ea0dd5de00bb3eb7bfc2b4fef35ecea72d2b4f5a6bd25b6f7227be40
-```
 
 ### Account
 
