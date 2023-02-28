@@ -52,7 +52,7 @@ export default function ViewNft() {
         setBalance(account.balance);
       }
     })();
-  }, []);
+  }, [getAccountBalance, getExchangeRates, searchMarketPlaceByPlayerId]);
 
   const redirectToWebsite = (e: any) => {
     e.preventDefault();
