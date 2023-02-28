@@ -38,7 +38,7 @@ function CustomerRatings(props: any) {
 
   return (
     <div>
-      <section aria-labelledby="reviews-heading" className="bg-white">
+      <section aria-labelledby="reviews-heading" className="bg-white font-mono">
         <div className="mx-auto max-w-2xl py-24 px-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-x-8 lg:py-32 lg:px-8">
           <div className="lg:col-span-4">
             <h2 id="reviews-heading" className="text-2xl font-bold tracking-tight text-gray-900">

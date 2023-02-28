@@ -57,7 +57,7 @@ export default function Example(props: any) {
           <div className="mt-2">
             <div className="flex min-h-full flex-col justify-center py-2 sm:px-6 lg:px-8">
               <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="shadow sm:rounded-lg ">
+                <div>
                   <form>
                     <div className="mx-auto max-w-4xl px-4 lg:max-w-none lg:px-0">
                       <div>
@@ -100,9 +100,9 @@ export default function Example(props: any) {
                                 name="about"
                                 rows={4}
                                 onChange={(e) => setComment(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="you@example.com"
-                                defaultValue={comment}
+                                className="italic font-mono mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Tell us about what do you think about this moment"
+                                // defaultValue={comment}
                               />
                             </div>
                           </div>

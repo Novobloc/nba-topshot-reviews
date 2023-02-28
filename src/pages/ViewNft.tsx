@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { StarIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { useParams } from "react-router-dom";
@@ -169,14 +169,14 @@ export default function ViewNft() {
             </Tab.Group>
             {/* Product info */}
             <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.moment.play.headline}</h1>
-              <h4 className="text-xl font-medium tracking-tight text-gray-900">
+              <h1 className="text-3xl font-mono font-bold tracking-tight text-gray-900">{product.moment.play.headline}</h1>
+              <h4 className="text-xl font-mono font-medium tracking-tight text-gray-900">
                 {product.moment.play.stats.playCategory} | {moment(product.moment.play.stats.dateOfMoment).format("YYYY MMM DD")}
               </h4>
               <h4 className="text-l font-semi-bold tracking-tight text-gray-900">
-                {product.moment.tier.replace("MOMENT_TIER_", "")} / {product.moment.setPlay.circulations.circulationCount}
+                {product.moment.tier.replace("MOMENT_TIER_", "")} / {product.moment.setPlay.circulations.circulationCount} CC
               </h4>
-              <h4 className="text-l font-semi-bold tracking-tight text-gray-900">{product.moment.setPlay.circulations.burned} Moments burned</h4>
+              <h4 className="text-l font-normal italic tracking-tight text-gray-900">{product.moment.setPlay.circulations.burned} Moments burned</h4>
 
               {/* Reviews */}
               {reviews && (
@@ -187,7 +187,7 @@ export default function ViewNft() {
                       {[1, 2, 3, 4, 5].map((rating) => (
                         <StarIcon
                           key={rating}
-                          className={classNames(Number(reviews.average) > rating ? "text-indigo-500" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
+                          className={classNames(Number(reviews.average) > rating ? "text-yellow-400" : "text-gray-300", "h-5 w-5 flex-shrink-0")}
                           aria-hidden="true"
                         />
                       ))}
@@ -203,7 +203,10 @@ export default function ViewNft() {
 
               <div className="mt-6">
                 <h3 className="sr-only">Description</h3>
-                <div className="space-y-6 text-base text-gray-700" dangerouslySetInnerHTML={{ __html: product.moment.play.description }} />
+                <div
+                  className="space-y-6 text-base text-gray-700 font-thin font-sans"
+                  dangerouslySetInnerHTML={{ __html: product.moment.play.description }}
+                />
               </div>
 
               <form className="mt-6">
@@ -218,13 +221,6 @@ export default function ViewNft() {
                     <img className="ml-2" width={100} height={100} src="https://nbatopshot.com/static/img/top-shot-logo-horizontal-white.svg" />
                     <ArrowTopRightOnSquareIcon className="ml-2" width={25} />
                   </button>
-
-                  {/* <button
-                    type="button"
-                    className="ml-4 flex items-center justify-center rounded-md py-3 px-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
-                    <HeartIcon className="h-6 w-6 flex-shrink-0" aria-hidden="true" />
-                    <span className="sr-only">Add to favorites</span>
-                  </button> */}
                 </div>
               </form>
 
@@ -232,22 +228,28 @@ export default function ViewNft() {
                 <h2 id="details-heading" className="sr-only">
                   Additional details
                 </h2>
-                <h2 className="text-l font-medium tracking-tight text-gray-900 sm:text-xl">Highlights</h2>
+                <h2 className="text-l font-mono font-medium tracking-tight text-gray-900 sm:text-xl">Highlights</h2>
 
                 <div className="divide-y divide-gray-200 border-t pt-5">
-                  <ul role="list">
-                    {Object.keys(product.moment.play.stats).map(
-                      (highlight: string) =>
-                        highlight !== "__typename" && (
-                          <li key={highlight}>
-                            {highlight.replace(/([A-Z])/g, " $1").replace(/^./, function (str: string) {
-                              return str.toUpperCase();
-                            })}{" "}
-                            - {product.moment.play.stats[highlight]}
-                          </li>
-                        )
-                    )}
-                  </ul>
+                  <table className="">
+                    <tbody>
+                      {Object.keys(product.moment.play.stats).map((highlight: string) => {
+                        return (
+                          highlight !== "__typename" && (
+                            <tr>
+                              <td className="font-bold font-sans" >
+                                {highlight.replace(/([A-Z])/g, " $1").replace(/^./, function (str: string) {
+                                  return str.toUpperCase();
+                                })}
+                              </td>
+
+                              <td className="text-right font-mono font-extralight italic text-slate-400">{product.moment.play.stats[highlight]}</td>
+                            </tr>
+                          )
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </section>
             </div>
