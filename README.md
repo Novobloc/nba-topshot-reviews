@@ -28,18 +28,17 @@ Users can see the price of Trending `Moments` in `USDC` and click on Buy button 
 
 ## Demo
 
-Demo link : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Deployed Link </a>
+Demo link : <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.app/" target="_blank"> Deployed Link </a>
 
 > NOTE: _The proxy server need to be cold started. If the data is not loaded first time, Refresh a few times_
 
 Github : <a style="margin-bottom: 5px;" href="https://github.com/Novobloc/nba-topshot-reviews" target="_blank"> Repo Link </a>
 
-Video : <a style="margin-bottom: 5px;" href="" target="_blank"> Youtube Link </a>
+Video : <a style="margin-bottom: 5px;" href="https://www.youtube.com/watch?v=H1xu8yFKEx8" target="_blank"> Youtube Link </a>
 
 PPT: <a style="margin-bottom: 5px;" href="https://nba-topshot-reviews.netlify.app/project-ppt.pdf" target="_blank"> Document Link </a>
 
 <br>
-
 
 ---
 
@@ -138,8 +137,6 @@ To add a review, run the following command:
 flow transactions send cadence/transactions/addReview.cdc 4 "One of the best moments" "Mon Feb 27 2023 00:57:57 GMT+0530 (India Standard Time)" "123" --network=testnet
 ```
 
-
-
 ## Meet Our Team
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -179,4 +176,3 @@ flow transactions send cadence/transactions/addReview.cdc 4 "One of the best mom
 </div>
 
 <br />
-
